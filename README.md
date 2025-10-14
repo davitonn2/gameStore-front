@@ -171,25 +171,13 @@ O sistema de autenticação inclui:
 3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+   
 
 ## 👥 Equipe
 
-- **Frontend Team**: Desenvolvimento da interface Angular
-- **Backend Team**: Integração com APIs e serviços
-- **Design Team**: UI/UX e identidade visual
-- **QA Team**: Testes e qualidade
+- **Davi Augusto Voelz Tonn**: Responsável por...
+- **Kaio Levi**: Responsável por...
+- **Lucas Miguel**: Responsável por...
+- **Arthur Bona**: Responsável por...
 
-## 📞 Suporte
 
-Para suporte ou dúvidas:
-- Email: contato@gamestore.com
-- Discord: [Link do servidor]
-- Documentação: [Link da documentação]
-
----
-
-Desenvolvido com ❤️ pela equipe GameStore
