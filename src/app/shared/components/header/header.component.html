@@ -1,0 +1,114 @@
+<header class="header">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <!-- Logo -->
+      <a class="navbar-brand" routerLink="/">
+        <img src="assets/icons/logo.svg" alt="GameStore" class="logo" />
+        <span class="brand-text">GameStore</span>
+      </a>
+
+      <!-- Mobile menu toggle -->
+      <button 
+        class="navbar-toggler" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navigation menu -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              Início
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/catalogo" routerLinkActive="active">
+              Catálogo
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/sobre" routerLinkActive="active">
+              Sobre
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/contato" routerLinkActive="active">
+              Contato
+            </a>
+          </li>
+        </ul>
+
+        <!-- Search bar -->
+        <form class="search-form" (ngSubmit)="search()">
+          <div class="input-group">
+            <input 
+              type="text" 
+              class="form-control search-input" 
+              placeholder="Buscar jogos..."
+              [(ngModel)]="searchQuery"
+              name="searchQuery">
+            <button class="btn btn-outline-secondary search-btn" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </form>
+
+        <!-- User actions -->
+        <ul class="navbar-nav ms-3">
+          <!-- Cart -->
+          <li class="nav-item">
+            <a class="nav-link cart-link" routerLink="/carrinho" [attr.aria-label]="'Carrinho com ' + cartItemCount + ' itens'">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+            </a>
+          </li>
+
+          <!-- User menu -->
+          <li class="nav-item dropdown" *ngIf="currentUser; else loginButton">
+            <a 
+              class="nav-link dropdown-toggle user-menu" 
+              href="#" 
+              role="button" 
+              data-bs-toggle="dropdown" 
+              aria-expanded="false">
+              <i class="fas fa-user-circle"></i>
+              {{ currentUser.name }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" routerLink="/perfil">
+                  <i class="fas fa-user"></i> Meu Perfil
+                </a>
+              </li>
+              <li *ngIf="currentUser.role === 'ADMIN'">
+                <a class="dropdown-item" routerLink="/admin">
+                  <i class="fas fa-cog"></i> Administração
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" (click)="logout()">
+                  <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <ng-template #loginButton>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/login">
+                <i class="fas fa-sign-in-alt"></i> Entrar
+              </a>
+            </li>
+          </ng-template>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

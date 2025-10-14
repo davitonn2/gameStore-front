@@ -1,0 +1,208 @@
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+
+  .navbar {
+    padding: 1rem 0;
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+        color: white;
+      }
+
+      .logo {
+        height: 40px;
+        width: 40px;
+        margin-right: 0.5rem;
+        filter: brightness(0) invert(1);
+      }
+
+      .brand-text {
+        background: linear-gradient(45deg, #fff, #f0f0f0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+
+    .navbar-nav {
+      .nav-link {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-weight: 500;
+        margin: 0 0.5rem;
+        padding: 0.5rem 1rem !important;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: white !important;
+          background-color: rgba(255, 255, 255, 0.1);
+          transform: translateY(-2px);
+        }
+
+        &.active {
+          color: white !important;
+          background-color: rgba(255, 255, 255, 0.2);
+          font-weight: 600;
+        }
+      }
+    }
+
+    .search-form {
+      margin: 0 1rem;
+      flex: 1;
+      max-width: 400px;
+
+      .input-group {
+        .search-input {
+          border: none;
+          border-radius: 25px 0 0 25px;
+          padding: 0.75rem 1rem;
+          background-color: rgba(255, 255, 255, 0.9);
+          color: #333;
+          font-size: 0.9rem;
+
+          &:focus {
+            box-shadow: none;
+            background-color: white;
+          }
+
+          &::placeholder {
+            color: #666;
+          }
+        }
+
+        .search-btn {
+          border: none;
+          border-radius: 0 25px 25px 0;
+          background-color: rgba(255, 255, 255, 0.9);
+          color: #667eea;
+          padding: 0.75rem 1rem;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background-color: white;
+            color: #764ba2;
+          }
+        }
+      }
+    }
+
+    .cart-link {
+      position: relative;
+      color: white !important;
+      font-size: 1.2rem;
+
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff4757;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        animation: pulse 2s infinite;
+      }
+    }
+
+    .user-menu {
+      color: white !important;
+      font-weight: 500;
+
+      &:hover {
+        color: white !important;
+      }
+    }
+
+    .dropdown-menu {
+      border: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 0.5rem 0;
+
+      .dropdown-item {
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: #f8f9fa;
+          transform: translateX(5px);
+        }
+
+        i {
+          margin-right: 0.5rem;
+          width: 16px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+// Mobile responsiveness
+@media (max-width: 991.98px) {
+  .header .navbar {
+    .search-form {
+      margin: 1rem 0;
+      max-width: none;
+    }
+
+    .navbar-nav {
+      margin-top: 1rem;
+
+      .nav-link {
+        margin: 0.25rem 0;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .header {
+    .dropdown-menu {
+      background-color: #2d3748;
+      border: 1px solid #4a5568;
+
+      .dropdown-item {
+        color: #e2e8f0;
+
+        &:hover {
+          background-color: #4a5568;
+        }
+      }
+    }
+  }
+}

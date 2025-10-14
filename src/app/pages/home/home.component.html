@@ -1,0 +1,211 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <div class="hero-text">
+              <h1 class="hero-title">
+                Bem-vindo ao <span class="highlight">GameStore</span>
+              </h1>
+              <p class="hero-description">
+                Descubra os melhores jogos digitais com preços incríveis. 
+                Milhares de títulos esperando por você!
+              </p>
+              <div class="hero-actions">
+                <a routerLink="/catalogo" class="btn btn-primary btn-lg hero-btn">
+                  <i class="fas fa-gamepad"></i>
+                  Explorar Jogos
+                </a>
+                <a routerLink="/sobre" class="btn btn-outline-light btn-lg hero-btn">
+                  <i class="fas fa-info-circle"></i>
+                  Saiba Mais
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="hero-image">
+              <img src="assets/images/hero-gaming.png" alt="Gaming Setup" class="hero-img">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-bg"></div>
+  </section>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-section">
+    <div class="container">
+      <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p class="mt-3">Carregando os melhores jogos...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-section">
+    <div class="container">
+      <div class="alert alert-danger" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        {{ error }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Games Section -->
+  <section *ngIf="!loading && !error && featuredGames.length > 0" class="featured-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fas fa-star text-warning"></i>
+          Jogos em Destaque
+        </h2>
+        <p class="section-subtitle">
+          Os jogos mais populares e bem avaliados
+        </p>
+        <a routerLink="/catalogo?featured=true" class="btn btn-outline-primary">
+          Ver Todos <i class="fas fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+      
+      <div class="games-grid">
+        <div class="row">
+          <div 
+            *ngFor="let game of featuredGames.slice(0, 6)" 
+            class="col-lg-4 col-md-6 mb-4">
+            <app-product-card 
+              [game]="game"
+              (addToCart)="onAddToCart($event)"
+              (quickView)="onQuickView($event)">
+            </app-product-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- New Games Section -->
+  <section *ngIf="!loading && !error && newGames.length > 0" class="new-games-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fas fa-rocket text-success"></i>
+          Novos Lançamentos
+        </h2>
+        <p class="section-subtitle">
+          Os jogos mais recentes do mercado
+        </p>
+        <a routerLink="/catalogo?new=true" class="btn btn-outline-primary">
+          Ver Todos <i class="fas fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+      
+      <div class="games-grid">
+        <div class="row">
+          <div 
+            *ngFor="let game of newGames.slice(0, 6)" 
+            class="col-lg-4 col-md-6 mb-4">
+            <app-product-card 
+              [game]="game"
+              (addToCart)="onAddToCart($event)"
+              (quickView)="onQuickView($event)">
+            </app-product-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games on Sale Section -->
+  <section *ngIf="!loading && !error && gamesOnSale.length > 0" class="sale-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fas fa-fire text-danger"></i>
+          Promoções Imperdíveis
+        </h2>
+        <p class="section-subtitle">
+          Descontos incríveis em jogos selecionados
+        </p>
+        <a routerLink="/catalogo?sale=true" class="btn btn-outline-primary">
+          Ver Todos <i class="fas fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+      
+      <div class="games-grid">
+        <div class="row">
+          <div 
+            *ngFor="let game of gamesOnSale.slice(0, 6)" 
+            class="col-lg-4 col-md-6 mb-4">
+            <app-product-card 
+              [game]="game"
+              (addToCart)="onAddToCart($event)"
+              (quickView)="onQuickView($event)">
+            </app-product-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-download"></i>
+            </div>
+            <h4 class="feature-title">Download Imediato</h4>
+            <p class="feature-description">
+              Receba seus jogos instantaneamente após a compra
+            </p>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h4 class="feature-title">Compra Segura</h4>
+            <p class="feature-description">
+              Suas transações são protegidas com criptografia SSL
+            </p>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h4 class="feature-title">Suporte 24/7</h4>
+            <p class="feature-description">
+              Nossa equipe está sempre disponível para ajudar
+            </p>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-medal"></i>
+            </div>
+            <h4 class="feature-title">Garantia Total</h4>
+            <p class="feature-description">
+              30 dias de garantia em todos os produtos
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

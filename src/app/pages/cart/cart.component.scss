@@ -1,0 +1,556 @@
+.cart-container {
+  min-height: 100vh;
+  padding: 2rem 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+
+  .cart-header {
+    margin-bottom: 2rem;
+
+    .cart-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      i {
+        font-size: 2rem;
+      }
+    }
+
+    .breadcrumb-nav {
+      .breadcrumb {
+        background: none;
+        padding: 0;
+        margin: 0;
+
+        .breadcrumb-item {
+          a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+
+            &:hover {
+              color: #764ba2;
+            }
+          }
+
+          &.active {
+            color: #6c757d;
+          }
+        }
+      }
+    }
+  }
+
+  .loading-section,
+  .error-section {
+    padding: 4rem 0;
+    text-align: center;
+
+    .spinner-border {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .alert {
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .empty-cart {
+    .text-center {
+      padding: 4rem 0;
+
+      .empty-cart-icon {
+        margin-bottom: 2rem;
+        opacity: 0.5;
+      }
+
+      .empty-cart-title {
+        color: #495057;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .empty-cart-description {
+        color: #6c757d;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        border-radius: 25px;
+        font-weight: 500;
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  .cart-content {
+    .cart-items {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin-bottom: 2rem;
+
+      .cart-items-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h4 {
+          margin: 0;
+          font-weight: 600;
+        }
+
+        .btn {
+          border-radius: 20px;
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      .cart-item {
+        padding: 1.5rem;
+        border-bottom: 1px solid #f8f9fa;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .cart-item-content {
+          display: grid;
+          grid-template-columns: 100px 1fr auto auto auto;
+          gap: 1.5rem;
+          align-items: center;
+
+          .cart-item-image {
+            .game-image {
+              width: 100%;
+              height: 80px;
+              object-fit: cover;
+              border-radius: 8px;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+          }
+
+          .cart-item-info {
+            .game-title {
+              margin-bottom: 0.5rem;
+
+              .title-link {
+                color: #2c3e50;
+                text-decoration: none;
+                font-weight: 600;
+                transition: color 0.3s ease;
+
+                &:hover {
+                  color: #667eea;
+                }
+              }
+            }
+
+            .game-developer {
+              color: #6c757d;
+              font-size: 0.9rem;
+              margin-bottom: 0.5rem;
+            }
+
+            .game-price {
+              .current-price {
+                font-size: 1.1rem;
+                font-weight: bold;
+                color: #27ae60;
+                margin-right: 0.5rem;
+              }
+
+              .original-price {
+                font-size: 0.9rem;
+                color: #95a5a5;
+                text-decoration: line-through;
+              }
+            }
+          }
+
+          .cart-item-quantity {
+            text-align: center;
+
+            .quantity-label {
+              display: block;
+              font-size: 0.8rem;
+              color: #6c757d;
+              margin-bottom: 0.5rem;
+              font-weight: 500;
+            }
+
+            .quantity-controls {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              justify-content: center;
+
+              .quantity-btn {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                transition: all 0.3s ease;
+
+                &:hover:not(:disabled) {
+                  background: #667eea;
+                  color: white;
+                  border-color: #667eea;
+                }
+
+                &:disabled {
+                  opacity: 0.5;
+                  cursor: not-allowed;
+                }
+              }
+
+              .quantity-display {
+                min-width: 30px;
+                text-align: center;
+                font-weight: 500;
+                color: #495057;
+              }
+            }
+
+            .loading-spinner {
+              margin-top: 0.5rem;
+            }
+          }
+
+          .cart-item-total {
+            text-align: right;
+
+            .item-total-price {
+              font-size: 1.2rem;
+              font-weight: bold;
+              color: #2c3e50;
+            }
+          }
+
+          .cart-item-actions {
+            .remove-btn {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 0;
+              transition: all 0.3s ease;
+
+              &:hover:not(:disabled) {
+                background: #dc3545;
+                color: white;
+                border-color: #dc3545;
+                transform: scale(1.1);
+              }
+
+              &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .continue-shopping {
+      text-align: center;
+      margin-bottom: 2rem;
+
+      .btn {
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 500;
+      }
+    }
+
+    .cart-summary {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      position: sticky;
+      top: 2rem;
+
+      .summary-header {
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
+
+        h4 {
+          margin: 0;
+          font-weight: 600;
+        }
+      }
+
+      .summary-content {
+        padding: 1.5rem;
+
+        .summary-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+          font-size: 0.95rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          &.total-row {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 1rem;
+
+            .total-price {
+              color: #27ae60;
+              font-size: 1.4rem;
+            }
+          }
+        }
+
+        .summary-divider {
+          margin: 1rem 0;
+          border-color: #e9ecef;
+        }
+      }
+
+      .summary-actions {
+        padding: 0 1.5rem 1.5rem;
+
+        .checkout-btn {
+          border-radius: 25px;
+          padding: 1rem;
+          font-weight: 600;
+          font-size: 1.1rem;
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(39, 174, 96, 0.4);
+          }
+        }
+      }
+
+      .security-info {
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+
+        .security-item {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          margin-bottom: 0.75rem;
+          font-size: 0.9rem;
+          color: #495057;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          i {
+            font-size: 1rem;
+            width: 16px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 991.98px) {
+  .cart-container {
+    .cart-content {
+      .cart-items {
+        .cart-item {
+          .cart-item-content {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            text-align: center;
+
+            .cart-item-image {
+              justify-self: center;
+              max-width: 120px;
+
+              .game-image {
+                height: 100px;
+              }
+            }
+
+            .cart-item-total {
+              text-align: center;
+            }
+          }
+        }
+      }
+
+      .cart-summary {
+        position: static;
+        margin-top: 2rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .cart-container {
+    padding: 1rem 0;
+
+    .cart-header {
+      .cart-title {
+        font-size: 2rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+
+    .cart-content {
+      .cart-items {
+        .cart-item {
+          padding: 1rem;
+
+          .cart-item-content {
+            .cart-item-info {
+              .game-title {
+                font-size: 1rem;
+              }
+            }
+
+            .cart-item-quantity {
+              .quantity-controls {
+                .quantity-btn {
+                  width: 35px;
+                  height: 35px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .continue-shopping {
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .cart-container {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+
+    .cart-header {
+      .cart-title {
+        color: #e2e8f0;
+      }
+    }
+
+    .cart-content {
+      .cart-items {
+        background: #2d3748;
+        border: 1px solid #4a5568;
+
+        .cart-item {
+          border-bottom-color: #4a5568;
+
+          .cart-item-content {
+            .cart-item-info {
+              .game-title {
+                .title-link {
+                  color: #e2e8f0;
+
+                  &:hover {
+                    color: #667eea;
+                  }
+                }
+              }
+
+              .game-developer {
+                color: #a0aec0;
+              }
+            }
+
+            .cart-item-quantity {
+              .quantity-label {
+                color: #a0aec0;
+              }
+
+              .quantity-display {
+                color: #cbd5e0;
+              }
+            }
+
+            .cart-item-total {
+              .item-total-price {
+                color: #e2e8f0;
+              }
+            }
+          }
+        }
+      }
+
+      .cart-summary {
+        background: #2d3748;
+        border: 1px solid #4a5568;
+
+        .summary-content {
+          .summary-row {
+            color: #cbd5e0;
+          }
+
+          .summary-divider {
+            border-color: #4a5568;
+          }
+        }
+
+        .security-info {
+          background: #1a202c;
+          border-top-color: #4a5568;
+
+          .security-item {
+            color: #a0aec0;
+          }
+        }
+      }
+    }
+
+    .empty-cart {
+      .text-center {
+        .empty-cart-title {
+          color: #e2e8f0;
+        }
+
+        .empty-cart-description {
+          color: #a0aec0;
+        }
+      }
+    }
+  }
+}

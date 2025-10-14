@@ -1,0 +1,194 @@
+<div class="register-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="register-card">
+          <!-- Header -->
+          <div class="register-header">
+            <div class="logo-section">
+              <img src="assets/icons/logo.svg" alt="GameStore" class="register-logo">
+              <h1 class="register-title">GameStore</h1>
+            </div>
+            <h2 class="register-subtitle">Criar Nova Conta</h2>
+            <p class="register-description">
+              Junte-se à nossa comunidade de gamers e descubra jogos incríveis
+            </p>
+          </div>
+
+          <!-- Success Message -->
+          <div class="alert alert-success" *ngIf="success" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong>Conta criada com sucesso!</strong><br>
+            Redirecionando para o login...
+          </div>
+
+          <!-- Register Form -->
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form" *ngIf="!success">
+            <!-- Error Message -->
+            <div class="alert alert-danger" *ngIf="error" role="alert">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              {{ error }}
+            </div>
+
+            <!-- Name Field -->
+            <div class="form-group">
+              <label for="name" class="form-label">
+                <i class="fas fa-user"></i>
+                Nome Completo
+              </label>
+              <input
+                type="text"
+                id="name"
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid('name')"
+                [class.is-valid]="isFieldValid('name')"
+                formControlName="name"
+                placeholder="Seu nome completo"
+                autocomplete="name">
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('name')">
+                {{ getFieldError('name') }}
+              </div>
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+              <label for="email" class="form-label">
+                <i class="fas fa-envelope"></i>
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid('email')"
+                [class.is-valid]="isFieldValid('email')"
+                formControlName="email"
+                placeholder="seu@email.com"
+                autocomplete="email">
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+                {{ getFieldError('email') }}
+              </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+              <label for="password" class="form-label">
+                <i class="fas fa-lock"></i>
+                Senha
+              </label>
+              <div class="password-input-group">
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  id="password"
+                  class="form-control"
+                  [class.is-invalid]="isFieldInvalid('password')"
+                  [class.is-valid]="isFieldValid('password')"
+                  formControlName="password"
+                  placeholder="Mínimo 6 caracteres"
+                  autocomplete="new-password">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary password-toggle"
+                  (click)="togglePasswordVisibility()"
+                  [attr.aria-label]="showPassword ? 'Ocultar senha' : 'Mostrar senha'">
+                  <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+              </div>
+              
+              <!-- Password Strength Indicator -->
+              <div class="password-strength" *ngIf="registerForm.get('password')?.value">
+                <div class="strength-bar">
+                  <div 
+                    class="strength-fill" 
+                    [style.width.%]="getPasswordStrength() === 'weak' ? 33 : getPasswordStrength() === 'medium' ? 66 : 100"
+                    [style.background-color]="getPasswordStrengthColor()">
+                  </div>
+                </div>
+                <small class="strength-text" [style.color]="getPasswordStrengthColor()">
+                  Força da senha: {{ getPasswordStrengthText() }}
+                </small>
+              </div>
+              
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+                {{ getFieldError('password') }}
+              </div>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label">
+                <i class="fas fa-lock"></i>
+                Confirmar Senha
+              </label>
+              <div class="password-input-group">
+                <input
+                  [type]="showConfirmPassword ? 'text' : 'password'"
+                  id="confirmPassword"
+                  class="form-control"
+                  [class.is-invalid]="isFieldInvalid('confirmPassword') || registerForm.errors?.['passwordMismatch']"
+                  [class.is-valid]="isFieldValid('confirmPassword') && !registerForm.errors?.['passwordMismatch']"
+                  formControlName="confirmPassword"
+                  placeholder="Digite a senha novamente"
+                  autocomplete="new-password">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary password-toggle"
+                  (click)="toggleConfirmPasswordVisibility()"
+                  [attr.aria-label]="showConfirmPassword ? 'Ocultar senha' : 'Mostrar senha'">
+                  <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+              </div>
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('confirmPassword') || registerForm.errors?.['passwordMismatch']">
+                {{ getFieldError('confirmPassword') }}
+              </div>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="form-group">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="terms"
+                  required>
+                <label class="form-check-label" for="terms">
+                  Eu aceito os 
+                  <a href="#" class="terms-link">Termos de Uso</a> 
+                  e a 
+                  <a href="#" class="terms-link">Política de Privacidade</a>
+                </label>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg register-btn"
+              [disabled]="loading || registerForm.invalid">
+              <span *ngIf="!loading">
+                <i class="fas fa-user-plus me-2"></i>
+                Criar Conta
+              </span>
+              <span *ngIf="loading">
+                <div class="spinner-border spinner-border-sm me-2" role="status">
+                  <span class="visually-hidden">Criando conta...</span>
+                </div>
+                Criando conta...
+              </span>
+            </button>
+          </form>
+
+          <!-- Login Link -->
+          <div class="register-footer">
+            <p class="login-text">
+              Já tem uma conta?
+              <a routerLink="/login" class="login-link">
+                Faça login aqui
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

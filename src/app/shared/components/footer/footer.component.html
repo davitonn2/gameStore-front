@@ -1,0 +1,113 @@
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <!-- Company Info -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="footer-section">
+          <h5 class="footer-title">
+            <img src="assets/icons/logo.svg" alt="GameStore" class="footer-logo" />
+            GameStore
+          </h5>
+          <p class="footer-description">
+            Sua loja online especializada em jogos digitais. 
+            Oferecemos as melhores ofertas e os lançamentos mais recentes 
+            para gamers de todas as idades.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="YouTube">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Discord">
+              <i class="fab fa-discord"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-lg-2 col-md-6 mb-4">
+        <div class="footer-section">
+          <h6 class="footer-subtitle">Links Rápidos</h6>
+          <ul class="footer-links">
+            <li><a routerLink="/" class="footer-link">Início</a></li>
+            <li><a routerLink="/catalogo" class="footer-link">Catálogo</a></li>
+            <li><a routerLink="/catalogo?category=acao" class="footer-link">Ação</a></li>
+            <li><a routerLink="/catalogo?category=rpg" class="footer-link">RPG</a></li>
+            <li><a routerLink="/catalogo?category=estrategia" class="footer-link">Estratégia</a></li>
+            <li><a routerLink="/catalogo?category=esportes" class="footer-link">Esportes</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Customer Service -->
+      <div class="col-lg-2 col-md-6 mb-4">
+        <div class="footer-section">
+          <h6 class="footer-subtitle">Atendimento</h6>
+          <ul class="footer-links">
+            <li><a routerLink="/contato" class="footer-link">Contato</a></li>
+            <li><a href="#" class="footer-link">FAQ</a></li>
+            <li><a href="#" class="footer-link">Política de Devolução</a></li>
+            <li><a href="#" class="footer-link">Termos de Uso</a></li>
+            <li><a href="#" class="footer-link">Política de Privacidade</a></li>
+            <li><a href="#" class="footer-link">Suporte Técnico</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="footer-section">
+          <h6 class="footer-subtitle">Newsletter</h6>
+          <p class="newsletter-description">
+            Receba as melhores ofertas e lançamentos diretamente no seu e-mail!
+          </p>
+          <form class="newsletter-form">
+            <div class="input-group">
+              <input 
+                type="email" 
+                class="form-control newsletter-input" 
+                placeholder="Seu e-mail"
+                aria-label="E-mail para newsletter">
+              <button class="btn newsletter-btn" type="submit">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </form>
+          <div class="payment-methods">
+            <h6 class="payment-title">Formas de Pagamento</h6>
+            <div class="payment-icons">
+              <i class="fab fa-cc-visa"></i>
+              <i class="fab fa-cc-mastercard"></i>
+              <i class="fab fa-cc-paypal"></i>
+              <i class="fas fa-credit-card"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <hr class="footer-divider">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <p class="footer-copyright">
+          &copy; {{ currentYear }} GameStore. Todos os direitos reservados.
+        </p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="footer-info">
+          Desenvolvido com <i class="fas fa-heart text-danger"></i> para gamers
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

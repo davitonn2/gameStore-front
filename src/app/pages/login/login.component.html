@@ -1,0 +1,139 @@
+<div class="login-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7">
+        <div class="login-card">
+          <!-- Header -->
+          <div class="login-header">
+            <div class="logo-section">
+              <img src="assets/icons/logo.svg" alt="GameStore" class="login-logo">
+              <h1 class="login-title">GameStore</h1>
+            </div>
+            <h2 class="login-subtitle">Bem-vindo de volta!</h2>
+            <p class="login-description">
+              Faça login para acessar sua conta e continuar suas compras
+            </p>
+          </div>
+
+          <!-- Login Form -->
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+            <!-- Error Message -->
+            <div class="alert alert-danger" *ngIf="error" role="alert">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              {{ error }}
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+              <label for="email" class="form-label">
+                <i class="fas fa-envelope"></i>
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid('email')"
+                [class.is-valid]="isFieldValid('email')"
+                formControlName="email"
+                placeholder="seu@email.com"
+                autocomplete="email">
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+                {{ getFieldError('email') }}
+              </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+              <label for="password" class="form-label">
+                <i class="fas fa-lock"></i>
+                Senha
+              </label>
+              <div class="password-input-group">
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  id="password"
+                  class="form-control"
+                  [class.is-invalid]="isFieldInvalid('password')"
+                  [class.is-valid]="isFieldValid('password')"
+                  formControlName="password"
+                  placeholder="Sua senha"
+                  autocomplete="current-password">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary password-toggle"
+                  (click)="togglePasswordVisibility()"
+                  [attr.aria-label]="showPassword ? 'Ocultar senha' : 'Mostrar senha'">
+                  <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+              </div>
+              <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+                {{ getFieldError('password') }}
+              </div>
+            </div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="form-options">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="rememberMe">
+                <label class="form-check-label" for="rememberMe">
+                  Lembrar de mim
+                </label>
+              </div>
+              <a href="#" class="forgot-password-link">
+                Esqueceu sua senha?
+              </a>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="btn btn-primary btn-lg login-btn"
+              [disabled]="loading || loginForm.invalid">
+              <span *ngIf="!loading">
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Entrar
+              </span>
+              <span *ngIf="loading">
+                <div class="spinner-border spinner-border-sm me-2" role="status">
+                  <span class="visually-hidden">Entrando...</span>
+                </div>
+                Entrando...
+              </span>
+            </button>
+          </form>
+
+          <!-- Divider -->
+          <div class="login-divider">
+            <span>ou</span>
+          </div>
+
+          <!-- Social Login -->
+          <div class="social-login">
+            <button class="btn btn-outline-secondary social-btn" type="button">
+              <i class="fab fa-google"></i>
+              Continuar com Google
+            </button>
+            <button class="btn btn-outline-secondary social-btn" type="button">
+              <i class="fab fa-facebook-f"></i>
+              Continuar com Facebook
+            </button>
+          </div>
+
+          <!-- Register Link -->
+          <div class="login-footer">
+            <p class="register-text">
+              Não tem uma conta?
+              <a routerLink="/cadastro" class="register-link">
+                Cadastre-se aqui
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

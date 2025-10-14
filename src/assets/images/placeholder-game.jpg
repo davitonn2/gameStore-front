@@ -1,0 +1,14 @@
+<svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="200" fill="url(#gameGradient)"/>
+  <circle cx="150" cy="80" r="25" fill="white" opacity="0.8"/>
+  <rect x="130" y="95" width="40" height="8" fill="white" opacity="0.8" rx="4"/>
+  <rect x="120" y="110" width="60" height="6" fill="white" opacity="0.6" rx="3"/>
+  <rect x="125" y="125" width="50" height="6" fill="white" opacity="0.6" rx="3"/>
+  <text x="150" y="170" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" opacity="0.8">Game Image Placeholder</text>
+</svg>

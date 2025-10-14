@@ -1,0 +1,236 @@
+.profile-container {
+  min-height: 100vh;
+  padding: 2rem 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+
+  .profile-header {
+    margin-bottom: 2rem;
+
+    .profile-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      i {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .profile-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    .profile-avatar {
+      margin-bottom: 1.5rem;
+
+      i {
+        font-size: 5rem;
+        color: #667eea;
+      }
+    }
+
+    .profile-name {
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-email {
+      color: #6c757d;
+      margin-bottom: 1rem;
+    }
+
+    .profile-role {
+      .badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 500;
+
+        &.badge-admin {
+          background: linear-gradient(45deg, #dc3545, #c82333);
+          color: white;
+        }
+
+        &.badge-user {
+          background: linear-gradient(45deg, #28a745, #20c997);
+          color: white;
+        }
+      }
+    }
+  }
+
+  .profile-content {
+    .profile-section {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+
+      h4 {
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+      }
+
+      .info-grid {
+        .info-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 0;
+          border-bottom: 1px solid #f8f9fa;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          label {
+            font-weight: 600;
+            color: #495057;
+          }
+
+          span {
+            color: #6c757d;
+          }
+        }
+      }
+
+      .orders-placeholder {
+        text-align: center;
+        padding: 3rem 0;
+        color: #6c757d;
+
+        i {
+          margin-bottom: 1rem;
+          opacity: 0.5;
+        }
+
+        p {
+          margin-bottom: 2rem;
+        }
+
+        .btn {
+          padding: 0.75rem 2rem;
+          border-radius: 25px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+        }
+
+        &.btn-outline-danger:hover {
+          background: #dc3545;
+          border-color: #dc3545;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 991.98px) {
+  .profile-container {
+    .profile-card {
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .profile-container {
+    padding: 1rem 0;
+
+    .profile-header {
+      .profile-title {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+
+    .profile-card,
+    .profile-content .profile-section {
+      padding: 1.5rem;
+    }
+
+    .profile-content {
+      .profile-actions {
+        flex-direction: column;
+
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .profile-container {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+
+    .profile-header {
+      .profile-title {
+        color: #e2e8f0;
+      }
+    }
+
+    .profile-card,
+    .profile-content .profile-section {
+      background: #2d3748;
+      border: 1px solid #4a5568;
+
+      .profile-name,
+      h4 {
+        color: #e2e8f0;
+      }
+
+      .profile-email {
+        color: #a0aec0;
+      }
+
+      .info-grid {
+        .info-item {
+          border-bottom-color: #4a5568;
+
+          label {
+            color: #cbd5e0;
+          }
+
+          span {
+            color: #a0aec0;
+          }
+        }
+      }
+
+      .orders-placeholder {
+        color: #a0aec0;
+      }
+    }
+  }
+}

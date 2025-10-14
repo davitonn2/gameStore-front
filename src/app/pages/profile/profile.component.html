@@ -1,0 +1,76 @@
+<div class="profile-container">
+  <div class="container">
+    <div class="profile-header">
+      <h1 class="profile-title">
+        <i class="fas fa-user-circle text-primary"></i>
+        Meu Perfil
+      </h1>
+    </div>
+
+    <div class="row" *ngIf="currentUser">
+      <div class="col-lg-4">
+        <div class="profile-card">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3 class="profile-name">{{ currentUser.name }}</h3>
+          <p class="profile-email">{{ currentUser.email }}</p>
+          <div class="profile-role">
+            <span class="badge" [ngClass]="currentUser.role === 'ADMIN' ? 'badge-admin' : 'badge-user'">
+              {{ currentUser.role === 'ADMIN' ? 'Administrador' : 'Usuário' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="profile-content">
+          <div class="profile-section">
+            <h4>Informações Pessoais</h4>
+            <div class="info-grid">
+              <div class="info-item">
+                <label>Nome:</label>
+                <span>{{ currentUser.name }}</span>
+              </div>
+              <div class="info-item">
+                <label>Email:</label>
+                <span>{{ currentUser.email }}</span>
+              </div>
+              <div class="info-item">
+                <label>Membro desde:</label>
+                <span>{{ currentUser.createdAt | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-section">
+            <h4>Histórico de Pedidos</h4>
+            <div class="orders-placeholder">
+              <i class="fas fa-shopping-bag fa-3x"></i>
+              <p>Nenhum pedido encontrado</p>
+              <a routerLink="/catalogo" class="btn btn-primary">
+                <i class="fas fa-gamepad me-2"></i>
+                Explorar Jogos
+              </a>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-edit me-2"></i>
+              Editar Perfil
+            </button>
+            <button class="btn btn-outline-secondary">
+              <i class="fas fa-key me-2"></i>
+              Alterar Senha
+            </button>
+            <button class="btn btn-outline-danger" (click)="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i>
+              Sair
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

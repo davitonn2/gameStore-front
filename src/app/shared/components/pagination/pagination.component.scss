@@ -1,0 +1,221 @@
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+
+  .pagination-info {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .info-text {
+      color: #6c757d;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .page-size-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .page-size-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin: 0;
+      }
+
+      .page-size-select {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.9rem;
+        background: white;
+        color: #495057;
+        transition: all 0.3s ease;
+
+        &:focus {
+          border-color: #667eea;
+          box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+          outline: none;
+        }
+
+        &:hover {
+          border-color: #adb5bd;
+        }
+      }
+    }
+  }
+
+  .pagination-nav {
+    .pagination {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+      .page-item {
+        .page-link {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.75rem 1rem;
+          background: white;
+          border: none;
+          color: #667eea;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          font-weight: 500;
+          min-width: 45px;
+          height: 45px;
+
+          &:hover:not(:disabled) {
+            background: #f8f9fa;
+            color: #764ba2;
+            transform: translateY(-2px);
+          }
+
+          &:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+          }
+
+          &:disabled {
+            color: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
+          }
+
+          i {
+            font-size: 0.9rem;
+          }
+        }
+
+        &.active {
+          .page-link {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+          }
+        }
+
+        &.disabled {
+          .page-link {
+            background: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 767.98px) {
+  .pagination-container {
+    .pagination-info {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+
+      .page-size-selector {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+    }
+
+    .pagination-nav {
+      .pagination {
+        .page-item {
+          .page-link {
+            padding: 0.5rem 0.75rem;
+            min-width: 40px;
+            height: 40px;
+            font-size: 0.9rem;
+
+            &.first-page,
+            &.last-page {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .pagination-container {
+    .pagination-nav {
+      .pagination {
+        .page-item {
+          .page-link {
+            padding: 0.375rem 0.5rem;
+            min-width: 35px;
+            height: 35px;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .pagination-container {
+    .pagination-info {
+      .info-text,
+      .page-size-label {
+        color: #a0aec0;
+      }
+
+      .page-size-select {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e2e8f0;
+
+        &:focus {
+          border-color: #667eea;
+        }
+      }
+    }
+
+    .pagination-nav {
+      .pagination {
+        .page-item {
+          .page-link {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-color: #4a5568;
+
+            &:hover:not(:disabled) {
+              background: #4a5568;
+              color: #667eea;
+            }
+
+            &:disabled {
+              color: #718096;
+            }
+          }
+
+          &.disabled {
+            .page-link {
+              background: #4a5568;
+              color: #718096;
+            }
+          }
+        }
+      }
+    }
+  }
+}

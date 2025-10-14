@@ -1,0 +1,8 @@
+<div class="loading-container" [ngClass]="{ 'overlay': overlay }">
+  <div class="spinner" [ngClass]="'spinner-' + size">
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+  </div>
+  <p class="loading-message" *ngIf="message">{{ message }}</p>
+</div>

@@ -1,0 +1,227 @@
+<div class="checkout-container">
+  <div class="container">
+    <!-- Success Message -->
+    <div *ngIf="paymentSuccess" class="success-section">
+      <div class="text-center py-5">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 class="success-title">Pagamento Realizado com Sucesso!</h2>
+        <p class="success-description">
+          Seu pedido foi processado e você receberá os jogos em breve.
+        </p>
+        <div class="success-actions">
+          <a routerLink="/catalogo" class="btn btn-primary btn-lg">
+            <i class="fas fa-gamepad me-2"></i>
+            Continuar Comprando
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout Form -->
+    <div *ngIf="!paymentSuccess" class="checkout-content">
+      <div class="checkout-header">
+        <h1 class="checkout-title">
+          <i class="fas fa-credit-card text-primary"></i>
+          Finalizar Compra
+        </h1>
+      </div>
+
+      <div class="row">
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+          <div class="order-summary">
+            <h4>Resumo do Pedido</h4>
+            
+            <div class="order-items" *ngIf="cart?.cartGames">
+              <div class="order-item" *ngFor="let cartGame of cart?.cartGames">
+                <div class="item-info">
+                  <h6>{{ cartGame.game?.title }}</h6>
+                  <span class="item-quantity">Qtd: {{ cartGame.quantity }}</span>
+                </div>
+                <div class="item-price">
+                  {{ formatPrice((cartGame.game?.discountPrice || cartGame.game?.price || 0) * cartGame.quantity) }}
+                </div>
+              </div>
+            </div>
+
+            <div class="order-total">
+              <div class="total-row">
+                <span>Total:</span>
+                <span class="total-price">{{ formatPrice(getTotal()) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checkout Forms -->
+        <div class="col-lg-8">
+          <form [formGroup]="checkoutForm" class="checkout-form">
+            <h4>Informações de Contato</h4>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="fullName">Nome Completo *</label>
+                  <input 
+                    type="text" 
+                    id="fullName"
+                    class="form-control"
+                    formControlName="fullName"
+                    placeholder="Seu nome completo">
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="email">Email *</label>
+                  <input 
+                    type="email" 
+                    id="email"
+                    class="form-control"
+                    formControlName="email"
+                    placeholder="seu@email.com">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Telefone *</label>
+              <input 
+                type="tel" 
+                id="phone"
+                class="form-control"
+                formControlName="phone"
+                placeholder="(11) 99999-9999">
+            </div>
+
+            <!-- Payment Form -->
+            <div class="payment-section">
+              <h4>Forma de Pagamento</h4>
+              
+              <form [formGroup]="paymentForm">
+                <div class="payment-methods">
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      id="creditCard" 
+                      value="CREDIT_CARD"
+                      formControlName="paymentMethod">
+                    <label class="form-check-label" for="creditCard">
+                      <i class="fas fa-credit-card me-2"></i>
+                      Cartão de Crédito
+                    </label>
+                  </div>
+                  
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      id="pix" 
+                      value="PIX"
+                      formControlName="paymentMethod">
+                    <label class="form-check-label" for="pix">
+                      <i class="fas fa-qrcode me-2"></i>
+                      PIX
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Credit Card Fields -->
+                <div *ngIf="paymentForm.get('paymentMethod')?.value === 'CREDIT_CARD'" class="card-fields">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <div class="form-group">
+                        <label for="cardNumber">Número do Cartão</label>
+                        <input 
+                          type="text" 
+                          id="cardNumber"
+                          class="form-control"
+                          formControlName="cardNumber"
+                          placeholder="1234 5678 9012 3456">
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="cardCvv">CVV</label>
+                        <input 
+                          type="text" 
+                          id="cardCvv"
+                          class="form-control"
+                          formControlName="cardCvv"
+                          placeholder="123">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="cardHolderName">Nome no Cartão</label>
+                        <input 
+                          type="text" 
+                          id="cardHolderName"
+                          class="form-control"
+                          formControlName="cardHolderName"
+                          placeholder="NOME COMO NO CARTÃO">
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="cardExpiryMonth">Mês</label>
+                        <input 
+                          type="number" 
+                          id="cardExpiryMonth"
+                          class="form-control"
+                          formControlName="cardExpiryMonth"
+                          placeholder="MM"
+                          min="1" max="12">
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="cardExpiryYear">Ano</label>
+                        <input 
+                          type="number" 
+                          id="cardExpiryYear"
+                          class="form-control"
+                          formControlName="cardExpiryYear"
+                          placeholder="AAAA"
+                          min="2024">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="checkout-actions">
+              <button 
+                type="button"
+                class="btn btn-success btn-lg w-100"
+                (click)="processPayment()"
+                [disabled]="!checkoutForm.valid || !paymentForm.valid || processingPayment">
+                <span *ngIf="!processingPayment">
+                  <i class="fas fa-lock me-2"></i>
+                  Finalizar Pagamento - {{ formatPrice(getTotal()) }}
+                </span>
+                <span *ngIf="processingPayment">
+                  <div class="spinner-border spinner-border-sm me-2" role="status">
+                    <span class="visually-hidden">Processando...</span>
+                  </div>
+                  Processando Pagamento...
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
