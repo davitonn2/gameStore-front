@@ -7,12 +7,11 @@ import { User, LoginRequest, LoginResponse, UserCreateRequest } from '../models'
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8080/api';
+  private readonly API_URL = 'http://localhost:8080';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    // Load user from localStorage on service initialization
     this.loadUserFromStorage();
   }
 

@@ -64,10 +64,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.error = null;
 
       const userData = {
-        name: this.registerForm.value.name,
-        email: this.registerForm.value.email,
-        password: this.registerForm.value.password
+      cpf: this.registerForm.value.cpf || '00000000000',
+      nome: this.registerForm.value.name,
+      email: this.registerForm.value.email,
+      senha: this.registerForm.value.password,
+      telefone: this.registerForm.value.telefone || '0000000000',
+      role: 'USER'
       };
+
 
       this.authService.register(userData)
         .pipe(takeUntil(this.destroy$))
@@ -76,7 +80,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.success = true;
             
-            // Auto login after successful registration
             setTimeout(() => {
               this.router.navigate(['/login'], {
                 queryParams: { registered: 'true' }

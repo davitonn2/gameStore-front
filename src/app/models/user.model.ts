@@ -1,28 +1,33 @@
 export interface User {
   id: number;
-  name: string;
+  nome: string; 
   email: string;
-  password?: string;
+  cpf: string;
+  telefone: string;
   role: 'USER' | 'ADMIN';
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface UserCreateRequest {
-  name: string;
+  cpf: string;
+  nome: string;
   email: string;
-  password: string;
+  senha: string;
+  telefone: string;
+  role: string;
 }
 
 export interface UserUpdateRequest {
-  name?: string;
+  nome?: string;
   email?: string;
-  password?: string;
+  senha?: string;
+  telefone?: string;
 }
 
 export interface LoginRequest {
   email: string;
-  password: string;
+  senha: string; 
 }
 
 export interface LoginResponse {

@@ -13,7 +13,7 @@
           <div class="profile-avatar">
             <i class="fas fa-user-circle"></i>
           </div>
-          <h3 class="profile-name">{{ currentUser.name }}</h3>
+          <h3 class="profile-name">{{ currentUser.nome }}</h3>
           <p class="profile-email">{{ currentUser.email }}</p>
           <div class="profile-role">
             <span class="badge" [ngClass]="currentUser.role === 'ADMIN' ? 'badge-admin' : 'badge-user'">
@@ -30,7 +30,7 @@
             <div class="info-grid">
               <div class="info-item">
                 <label>Nome:</label>
-                <span>{{ currentUser.name }}</span>
+                <span>{{ currentUser.nome }}</span>
               </div>
               <div class="info-item">
                 <label>Email:</label>
