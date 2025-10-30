@@ -1,12 +1,12 @@
 export interface User {
   id: number;
-  nome: string; 
+  nome: string;
   email: string;
   cpf: string;
   telefone: string;
-  role: 'USER' | 'ADMIN';
-  createdAt?: Date;
-  updatedAt?: Date;
+  role: string; // 'USER' | 'ADMIN'
+  datacriacao?: string;
+  updatedAt?: string;
 }
 
 export interface UserCreateRequest {

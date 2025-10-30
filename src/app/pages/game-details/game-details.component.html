@@ -40,7 +40,7 @@
             <a routerLink="/catalogo">Catálogo</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
-            {{ game.title }}
+            {{ game.nome }}
           </li>
         </ol>
       </nav>
@@ -52,23 +52,18 @@
             <div class="main-image-container">
               <img 
                 [src]="getMainImage()" 
-                [alt]="game.title"
+                [alt]="game.nome"
                 class="main-image">
-              
-              <!-- Discount badge -->
-              <div class="discount-badge" *ngIf="hasDiscount()">
-                -{{ getDiscountPercentage() }}%
-              </div>
             </div>
 
             <!-- Thumbnail images -->
-            <div class="thumbnail-images" *ngIf="game.images.length > 1">
+            <div class="thumbnail-images" *ngIf="game.imagens && game.imagens.length > 1">
               <div 
-                *ngFor="let image of game.images; let i = index"
+                *ngFor="let image of game.imagens; let i = index"
                 class="thumbnail-item"
                 [class.active]="i === selectedImageIndex"
                 (click)="selectImage(i)">
-                <img [src]="image.url" [alt]="image.altText || game.title">
+                <img [src]="image.url" [alt]="image.altText || game.nome">
               </div>
             </div>
           </div>
@@ -79,39 +74,36 @@
           <div class="game-info">
             <!-- Title and Category -->
             <div class="game-header">
-              <div class="category-badge" *ngIf="game.category">
-                {{ game.category.name }}
+              <div class="category-badge" *ngIf="game.categoria">
+                {{ game.categoria }}
               </div>
-              <h1 class="game-title">{{ game.title }}</h1>
+              <h1 class="game-title">{{ game.nome }}</h1>
               <div class="game-meta">
-                <span class="developer" *ngIf="game.developer">
+                <span class="developer" *ngIf="game.desenvolvedor">
                   <i class="fas fa-user"></i>
-                  {{ game.developer }}
+                  {{ game.desenvolvedor }}
                 </span>
-                <span class="publisher" *ngIf="game.publisher">
+                <span class="publisher" *ngIf="game.distribuidor">
                   <i class="fas fa-building"></i>
-                  {{ game.publisher }}
+                  {{ game.distribuidor }}
                 </span>
                 <span class="release-date">
                   <i class="fas fa-calendar"></i>
-                  {{ formatDate(game.releaseDate) }}
+                  {{ formatDate(game.dataLancamento) }}
                 </span>
               </div>
             </div>
 
             <!-- Description -->
             <div class="game-description">
-              <p>{{ game.description }}</p>
+              <p>{{ game.descricao }}</p>
             </div>
 
             <!-- Price and Purchase -->
             <div class="purchase-section">
               <div class="price-container">
                 <div class="current-price">
-                  {{ formatPrice(getCurrentPrice()) }}
-                </div>
-                <div class="original-price" *ngIf="hasDiscount()">
-                  {{ formatPrice(game.price) }}
+                  {{ formatPrice(game.valor) }}
                 </div>
               </div>
 
@@ -174,51 +166,31 @@
       </div>
 
       <!-- System Requirements -->
-      <div class="system-requirements" *ngIf="game.systemRequirements.length > 0">
+      <div class="system-requirements" *ngIf="game.so || game.armazenamento || game.processador || game.memoria || game.placaDeVideo">
         <h3 class="section-title">
           <i class="fas fa-cogs"></i>
           Requisitos do Sistema
         </h3>
         <div class="requirements-grid">
-          <div class="requirement-item" *ngFor="let req of game.systemRequirements">
-            <div class="requirement-content">
-              <div class="requirement-row" *ngIf="req.os">
-                <strong>Sistema Operacional:</strong>
-                <span>{{ req.os }}</span>
-              </div>
-              <div class="requirement-row" *ngIf="req.processor">
-                <strong>Processador:</strong>
-                <span>{{ req.processor }}</span>
-              </div>
-              <div class="requirement-row" *ngIf="req.memory">
-                <strong>Memória:</strong>
-                <span>{{ req.memory }}</span>
-              </div>
-              <div class="requirement-row" *ngIf="req.graphics">
-                <strong>Placa de Vídeo:</strong>
-                <span>{{ req.graphics }}</span>
-              </div>
-              <div class="requirement-row" *ngIf="req.directX">
-                <strong>DirectX:</strong>
-                <span>{{ req.directX }}</span>
-              </div>
-              <div class="requirement-row" *ngIf="req.network">
-                <strong>Rede:</strong>
-                <span>{{ req.network }}</span>
-              </div>
-              <div class="requirement-row" *ngIf="req.storage">
-                <strong>Armazenamento:</strong>
-                <span>{{ req.storage }}</span>
-              </div>
-              <div class="requirement-row" *ngIf="req.soundCard">
-                <strong>Placa de Som:</strong>
-                <span>{{ req.soundCard }}</span>
-              </div>
-              <div class="requirement-row" *ngIf="req.additionalNotes">
-                <strong>Notas Adicionais:</strong>
-                <span>{{ req.additionalNotes }}</span>
-              </div>
-            </div>
+          <div class="requirement-item" *ngIf="game.so">
+            <strong>Sistema Operacional:</strong>
+            <span>{{ game.so }}</span>
+          </div>
+          <div class="requirement-item" *ngIf="game.processador">
+            <strong>Processador:</strong>
+            <span>{{ game.processador }}</span>
+          </div>
+          <div class="requirement-item" *ngIf="game.memoria">
+            <strong>Memória:</strong>
+            <span>{{ game.memoria }}</span>
+          </div>
+          <div class="requirement-item" *ngIf="game.placaDeVideo">
+            <strong>Placa de Vídeo:</strong>
+            <span>{{ game.placaDeVideo }}</span>
+          </div>
+          <div class="requirement-item" *ngIf="game.armazenamento">
+            <strong>Armazenamento:</strong>
+            <span>{{ game.armazenamento }}</span>
           </div>
         </div>
       </div>
@@ -235,13 +207,13 @@
             class="col-lg-3 col-md-6 mb-4">
             <div class="related-game-card" (click)="onRelatedGameClick(relatedGame)">
               <img 
-                [src]="(relatedGame.images && relatedGame.images[0] && relatedGame.images[0].url) || 'assets/images/placeholder-game.jpg'" 
-                [alt]="relatedGame.title"
+                [src]="(relatedGame.imagens && relatedGame.imagens[0] && relatedGame.imagens[0].url) || 'assets/images/placeholder-game.jpg'" 
+                [alt]="relatedGame.nome"
                 class="related-game-image">
               <div class="related-game-info">
-                <h5 class="related-game-title">{{ relatedGame.title }}</h5>
+                <h5 class="related-game-title">{{ relatedGame.nome }}</h5>
                 <div class="related-game-price">
-                  {{ formatPrice(relatedGame.discountPrice || relatedGame.price) }}
+                  {{ formatPrice(relatedGame.valor) }}
                 </div>
               </div>
             </div>

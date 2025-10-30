@@ -37,11 +37,11 @@
             <div class="order-items" *ngIf="cart?.cartGames">
               <div class="order-item" *ngFor="let cartGame of cart?.cartGames">
                 <div class="item-info">
-                  <h6>{{ cartGame.game?.title }}</h6>
+                  <h6>{{ cartGame.game?.nome }}</h6>
                   <span class="item-quantity">Qtd: {{ cartGame.quantity }}</span>
                 </div>
                 <div class="item-price">
-                  {{ formatPrice((cartGame.game?.discountPrice || cartGame.game?.price || 0) * cartGame.quantity) }}
+                  {{ formatPrice(( cartGame.game?.valor || 0) * cartGame.quantity) }}
                 </div>
               </div>
             </div>

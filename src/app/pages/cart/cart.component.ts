@@ -56,7 +56,7 @@ export class CartComponent implements OnInit, OnDestroy {
   getItemPrice(cartGame: CartGame): number {
     const game = cartGame.game;
     if (!game) return 0;
-    return game.discountPrice || game.price;
+    return  game.valor;
   }
 
   getItemTotal(cartGame: CartGame): number {

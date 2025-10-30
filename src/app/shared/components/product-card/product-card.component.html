@@ -2,75 +2,59 @@
   <div class="card-image-container">
     <img 
       [src]="getMainImage()" 
-      [alt]="game.title"
+      [alt]="game.nome"
       class="card-image"
       loading="lazy">
-    
-    <!-- Discount badge -->
-    <div class="discount-badge" *ngIf="hasDiscount()">
-      -{{ getDiscountPercentage() }}%
-    </div>
-
     <!-- Quick view overlay -->
     <div class="card-overlay">
       <button 
         class="btn btn-overlay quick-view-btn" 
         (click)="onQuickView($event)"
-        [attr.aria-label]="'Visualização rápida de ' + game.title">
+        [attr.aria-label]="'Visualização rápida de ' + game.nome">
         <i class="fas fa-eye"></i>
       </button>
-      
       <button 
         class="btn btn-overlay add-to-cart-btn" 
         (click)="onAddToCart($event)"
         *ngIf="showAddToCart"
-        [attr.aria-label]="'Adicionar ' + game.title + ' ao carrinho'">
+        [attr.aria-label]="'Adicionar ' + game.nome + ' ao carrinho'">
         <i class="fas fa-cart-plus"></i>
       </button>
     </div>
-
     <!-- Category tag -->
-    <div class="category-tag" *ngIf="game.category">
-      {{ game.category.name }}
+    <div class="category-tag" *ngIf="game.categoria">
+      {{ game.categoria }}
     </div>
   </div>
-
   <div class="card-body">
     <h5 class="card-title">
       <a [routerLink]="['/jogo', game.id]" class="title-link">
-        {{ game.title }}
+        {{ game.nome }}
       </a>
     </h5>
-
-    <p class="card-developer" *ngIf="game.developer">
-      {{ game.developer }}
+    <p class="card-developer" *ngIf="game.desenvolvedor">
+      {{ game.desenvolvedor }}
     </p>
-
     <p class="card-description" *ngIf="cardSize !== 'small'">
-      {{ game.description | slice:0:120 }}{{ game.description.length > 120 ? '...' : '' }}
+      {{ getDescricaoSlice() }}{{ getDescricaoLength() > 120 ? '...' : '' }}
     </p>
-
     <div class="card-meta" *ngIf="cardSize === 'large'">
       <div class="meta-item">
         <i class="fas fa-calendar-alt"></i>
-        <span>{{ formatDate(game.releaseDate) }}</span>
+  <span>{{ formatDataLancamento() }}</span>
       </div>
-      <div class="meta-item" *ngIf="game.publisher">
+      <div class="meta-item" *ngIf="game.distribuidor">
         <i class="fas fa-building"></i>
-        <span>{{ game.publisher }}</span>
+        <span>{{ game.distribuidor }}</span>
       </div>
     </div>
-
     <div class="card-footer">
       <div class="price-container">
         <div class="current-price">
           {{ formatPrice(getCurrentPrice()) }}
         </div>
-        <div class="original-price" *ngIf="hasDiscount()">
-          {{ formatPrice(game.price) }}
-        </div>
+        <!-- Removido preço original/desconto, não existe mais no backend/model -->
       </div>
-
       <div class="card-actions">
         <button 
           class="btn btn-primary btn-sm add-to-cart-action"
@@ -79,7 +63,6 @@
           <i class="fas fa-cart-plus"></i>
           <span class="btn-text">Comprar</span>
         </button>
-        
         <a 
           [routerLink]="['/jogo', game.id]" 
           class="btn btn-outline-primary btn-sm view-details-btn">

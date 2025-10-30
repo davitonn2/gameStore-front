@@ -95,11 +95,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onAddToCart(game: Game): void {
     // This will be handled by the product card component
-    console.log('Adding to cart:', game.title);
+    console.log('Adding to cart:', game.nome);
   }
 
   onQuickView(game: Game): void {
     // Navigate to game details
-    console.log('Quick view:', game.title);
+    console.log('Quick view:', game.nome);
   }
 }

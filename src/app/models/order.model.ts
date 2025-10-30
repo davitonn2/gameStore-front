@@ -10,16 +10,10 @@ export interface OrderGame {
 
 export interface Order {
   id: number;
-  userId: number;
-  user?: User;
-  orderGames: OrderGame[];
-  totalAmount: number;
-  status: 'PENDING' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
-  paymentStatus: 'PENDING' | 'PAID' | 'FAILED' | 'REFUNDED';
-  paymentMethod: string;
-  shippingAddress?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  usuario: User;
+  carrinho: any;
+  datapedido: string;
+  status: string;
 }
 
 export interface CreateOrderRequest {
@@ -33,7 +27,7 @@ export interface OrderStatusUpdateRequest {
 }
 
 export interface PaymentStatusUpdateRequest {
-  paymentStatus: Order['paymentStatus'];
+  // Removido: campo inexistente no model Order
 }
 
 // Import types from other models

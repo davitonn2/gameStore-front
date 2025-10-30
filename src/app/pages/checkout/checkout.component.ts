@@ -74,7 +74,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   getTotal(): number {
     if (!this.cart?.cartGames) return 0;
     return this.cart.cartGames.reduce((total, item) => {
-      const price = item.game?.discountPrice || item.game?.price || 0;
+      const price =  item.game?.valor || 0;
       return total + (price * item.quantity);
     }, 0);
   }

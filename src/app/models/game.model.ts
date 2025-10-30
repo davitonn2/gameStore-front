@@ -33,21 +33,25 @@ import { Category } from './category.model';
 
 export interface Game {
   id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPrice?: number;
-  releaseDate: Date;
-  developer: string;
-  publisher: string;
-  categoryId: number;
-  category?: Category;
-  systemRequirements: SystemRequirement[];
-  images: Image[];
-  keys: Key[];
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  nome: string; // title
+  valor: number; // price
+  descricao: string; // description
+  dataLancamento: string; // releaseDate (ISO string)
+  desenvolvedor: string; // developer
+  distribuidor: string; // publisher
+  categoria: string; // categoria principal
+  categorias?: Category[]; // lista de categorias
+  so: string; // sistema operacional
+  armazenamento: string;
+  processador: string;
+  memoria: string;
+  placaDeVideo: string;
+  plataformas?: string[]; // ex: ['PC', 'PS5']
+  imagens?: Image[];
+  chaves?: Key[];
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface GameCreateRequest {

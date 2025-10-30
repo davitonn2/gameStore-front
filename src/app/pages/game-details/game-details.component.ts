@@ -79,24 +79,17 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   }
 
   getMainImage(): string {
-    if (!this.game?.images?.length) {
+    if (!this.game?.imagens?.length) {
       return 'assets/images/placeholder-game.jpg';
     }
-    return this.game.images[this.selectedImageIndex]?.url || this.game.images[0].url;
+    return this.game.imagens[this.selectedImageIndex]?.url || this.game.imagens[0].url;
   }
 
   getCurrentPrice(): number {
-    return this.game?.discountPrice || this.game?.price || 0;
+    return this.game?.valor || 0;
   }
 
-  hasDiscount(): boolean {
-    return !!(this.game?.discountPrice && this.game.discountPrice < this.game.price);
-  }
-
-  getDiscountPercentage(): number {
-    if (!this.hasDiscount() || !this.game) return 0;
-    return Math.round(((this.game.price - this.game.discountPrice!) / this.game.price) * 100);
-  }
+  // Desconto removido, pois não existe mais no model Game
 
   formatPrice(price: number): string {
     return new Intl.NumberFormat('pt-BR', {
@@ -105,12 +98,13 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     }).format(price);
   }
 
-  formatDate(date: Date): string {
+  formatDate(date: string | Date): string {
+    const d = typeof date === 'string' ? new Date(date) : date;
     return new Intl.DateTimeFormat('pt-BR', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
-    }).format(new Date(date));
+    }).format(d);
   }
 
   selectImage(index: number): void {
@@ -143,7 +137,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           // Show success message
-          console.log('Added to cart:', this.game!.title);
+          console.log('Added to cart:', this.game!.nome);
         },
         error: (error) => {
           console.error('Error adding to cart:', error);

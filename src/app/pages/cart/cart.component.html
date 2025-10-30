@@ -76,8 +76,8 @@
                 <!-- Game Image -->
                 <div class="cart-item-image">
                   <img 
-                    [src]="cartGame.game?.images?.[0]?.url || 'assets/images/placeholder-game.jpg'" 
-                    [alt]="cartGame.game?.title"
+                    [src]="cartGame.game?.imagens?.[0]?.url || 'assets/images/placeholder-game.jpg'" 
+                    [alt]="cartGame.game?.nome"
                     class="game-image">
                 </div>
 
@@ -85,11 +85,11 @@
                 <div class="cart-item-info">
                   <h5 class="game-title">
                     <a [routerLink]="['/jogo', cartGame.game?.id]" class="title-link">
-                      {{ cartGame.game?.title }}
+                      {{ cartGame.game?.nome }}
                     </a>
                   </h5>
-                  <p class="game-developer" *ngIf="cartGame.game?.developer">
-                    {{ cartGame.game?.developer }}
+                  <p class="game-developer" *ngIf="cartGame.game?.desenvolvedor">
+                    {{ cartGame.game?.desenvolvedor }}
                   </p>
                   <div class="game-price">
                     <span class="current-price">
@@ -98,7 +98,7 @@
                     <span 
                       class="original-price" 
                       *ngIf="hasDiscount(cartGame)">
-                      {{ formatPrice(cartGame.game?.price || 0) }}
+                      {{ formatPrice(cartGame.game?.valor || 0) }}
                     </span>
                   </div>
                 </div>

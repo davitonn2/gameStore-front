@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Cart, CartGame, AddToCartRequest, UpdateCartItemRequest } from '../models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private readonly API_URL = 'http://localhost:8080/api';
+  private readonly API_URL = environment.apiUrl;
   private cartSubject = new BehaviorSubject<Cart | null>(null);
   public cart$ = this.cartSubject.asObservable();
 
@@ -52,8 +53,8 @@ export class CartService {
     const cart = this.cartSubject.value;
     return cart?.cartGames?.reduce((total, item) => {
       const game = item.game;
-      const price = game?.discountPrice || game?.price || 0;
-      return total + (price * item.quantity);
+  const price = game?.valor || 0;
+  return total + (price * item.quantity);
     }, 0) || 0;
   }
 

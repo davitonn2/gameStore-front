@@ -28,21 +28,30 @@ export class ProductCardComponent {
   }
 
   getMainImage(): string {
-    const mainImage = this.game.images?.find(img => img.isMainImage);
-    return mainImage?.url || this.game.images?.[0]?.url || 'assets/images/placeholder-game.jpg';
+    const mainImage = this.game.imagens?.find((img: any) => img.isMainImage);
+    return mainImage?.url || this.game.imagens?.[0]?.url || 'assets/images/placeholder-game.jpg';
   }
 
   getCurrentPrice(): number {
-    return this.game.discountPrice || this.game.price;
+    return this.game.valor || 0;
   }
 
-  hasDiscount(): boolean {
-    return !!this.game.discountPrice && this.game.discountPrice < this.game.price;
+  getDescricaoSlice(): string {
+    return (this.game.descricao || '').slice(0, 120);
   }
 
-  getDiscountPercentage(): number {
-    if (!this.hasDiscount()) return 0;
-    return Math.round(((this.game.price - this.game.discountPrice!) / this.game.price) * 100);
+  getDescricaoLength(): number {
+    return (this.game.descricao || '').length;
+  }
+
+  formatDataLancamento(): string {
+    if (!this.game.dataLancamento) return '';
+    const date = new Date(this.game.dataLancamento);
+    return new Intl.DateTimeFormat('pt-BR', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }).format(date);
   }
 
   formatPrice(price: number): string {

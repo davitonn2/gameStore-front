@@ -192,7 +192,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           // Show success message or update UI
-          console.log('Added to cart:', game.title);
+          console.log('Added to cart:', game.nome);
         },
         error: (error) => {
           console.error('Error adding to cart:', error);
