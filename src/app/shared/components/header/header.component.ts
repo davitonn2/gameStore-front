@@ -25,6 +25,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  irParaPerfil(event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/perfil']);
+  }
+
   ngOnInit(): void {
     this.authService.currentUser$
       .pipe(takeUntil(this.destroy$))

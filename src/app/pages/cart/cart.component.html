@@ -76,7 +76,7 @@
                 <!-- Game Image -->
                 <div class="cart-item-image">
                   <img 
-                    [src]="cartGame.game?.imagens?.[0]?.url || 'assets/images/placeholder-game.jpg'" 
+                    [src]="getMainImage(cartGame.game)" 
                     [alt]="cartGame.game?.nome"
                     class="game-image">
                 </div>
@@ -94,11 +94,6 @@
                   <div class="game-price">
                     <span class="current-price">
                       {{ formatPrice(getItemPrice(cartGame)) }}
-                    </span>
-                    <span 
-                      class="original-price" 
-                      *ngIf="hasDiscount(cartGame)">
-                      {{ formatPrice(cartGame.game?.valor || 0) }}
                     </span>
                   </div>
                 </div>
@@ -173,10 +168,7 @@
                 <span>{{ formatPrice(getSubtotal()) }}</span>
               </div>
               
-              <div class="summary-row">
-                <span>Desconto:</span>
-                <span class="text-success">R$ 0,00</span>
-              </div>
+              <!-- Desconto removido, não existe mais no model Game -->
               
               <div class="summary-row">
                 <span>Frete:</span>

@@ -150,7 +150,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
               this.paymentSuccess = true;
               this.cartService.clearCart().subscribe();
             } else {
-              alert('Pagamento falhou: ' + response.message);
+              alert('Pagamento falhou: ' + response.mensagem);
             }
           },
           error: (error) => {

@@ -42,6 +42,34 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/admin/admin.component').then(m => m.AdminComponent)
   },
   {
+    path: 'admin/jogos/adicionar',
+    loadComponent: () => import('./pages/jogos/add-jogo.component').then(m => m.AddJogoComponent)
+  },
+  {
+    path: 'admin/jogos',
+    loadComponent: () => import('./pages/jogos/list-jogos.component').then(m => m.ListJogosComponent)
+  },
+  {
+    path: 'admin/categorias',
+    loadComponent: () => import('./pages/categorias/categorias.component').then(m => m.CategoriasComponent)
+  },
+  {
+    path: 'admin/usuarios',
+    loadComponent: () => import('./pages/usuarios/list-usuarios.component').then(m => m.ListUsuariosComponent)
+  },
+  {
+    path: 'admin/pedidos',
+    loadComponent: () => import('./pages/pedidos/pedidos.component').then(m => m.PedidosComponent)
+  },
+  {
+    path: 'admin/relatorios',
+    loadComponent: () => import('./pages/relatorios/relatorios.component').then(m => m.RelatoriosComponent)
+  },
+  {
+    path: 'admin/pagamentos',
+    loadComponent: () => import('./pages/pagamentos/pagamentos.component').then(m => m.PagamentosComponent)
+  },
+  {
     path: 'sobre',
     loadComponent: () => import('./pages/about/about.component').then(m => m.AboutComponent)
   },

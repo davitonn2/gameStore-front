@@ -49,18 +49,18 @@ export class UserService {
     if (params?.sortBy) httpParams = httpParams.set('sortBy', params.sortBy);
     if (params?.sortDirection) httpParams = httpParams.set('sortDirection', params.sortDirection);
 
-    return this.http.get<{ content: User[]; totalElements: number; totalPages: number; number: number; size: number }>(`${this.API_URL}/admin/users`, { params: httpParams });
+  return this.http.get<{ content: User[]; totalElements: number; totalPages: number; number: number; size: number }>(`${this.API_URL}/usuarios`, { params: httpParams });
   }
 
   getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.API_URL}/admin/users/${id}`);
+  return this.http.get<User>(`${this.API_URL}/usuarios/${id}`);
   }
 
   updateUser(id: number, userData: UserUpdateRequest): Observable<User> {
-    return this.http.put<User>(`${this.API_URL}/admin/users/${id}`, userData);
+  return this.http.put<User>(`${this.API_URL}/usuarios/${id}`, userData);
   }
 
   deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/admin/users/${id}`);
+  return this.http.delete<void>(`${this.API_URL}/usuarios/${id}`);
   }
 }

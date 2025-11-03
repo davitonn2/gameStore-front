@@ -4,7 +4,7 @@ export interface OrderGame {
   gameId: number;
   game?: Game;
   quantity: number;
-  price: number;
+  valor: number;
   key?: Key;
 }
 
@@ -12,7 +12,7 @@ export interface Order {
   id: number;
   usuario: User;
   carrinho: any;
-  datapedido: string;
+  dataPedido: string;
   status: string;
 }
 

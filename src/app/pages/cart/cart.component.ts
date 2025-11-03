@@ -13,10 +13,12 @@ import { Cart, CartGame } from '../../models';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit, OnDestroy {
+
   cart: Cart | null = null;
   loading = true;
   error: string | null = null;
   updatingItems: Set<number> = new Set();
+  private cartSubscription: any;
 
   private destroy$ = new Subject<void>();
 
@@ -26,12 +28,23 @@ export class CartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // Subscribe to cart observable for reactive updates
+    this.cartSubscription = this.cartService.cart$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(cart => {
+        this.cart = cart;
+        this.loading = false;
+      });
+    // Initial load
     this.loadCart();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
   }
 
   private loadCart(): void {
@@ -51,6 +64,12 @@ export class CartComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
+  }
+
+  getMainImage(game: any): string {
+    if (!game || !game.imagens) return 'assets/images/placeholder-game.jpg';
+    const mainImage = game.imagens.find((img: any) => img.isMainImage);
+    return mainImage?.url || game.imagens[0]?.url || 'assets/images/placeholder-game.jpg';
   }
 
   getItemPrice(cartGame: CartGame): number {
@@ -79,11 +98,8 @@ export class CartComponent implements OnInit, OnDestroy {
     }).format(price);
   }
 
-  hasDiscount(cartGame: any): boolean {
-    return !!(cartGame.game?.discountPrice && 
-              cartGame.game?.price && 
-              cartGame.game.discountPrice < cartGame.game.price);
-  }
+
+  // Desconto removido, não existe mais no model Game
 
   updateQuantity(cartGameId: number, quantity: number): void {
     if (quantity < 1) return;

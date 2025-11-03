@@ -14,11 +14,16 @@ import { ProductCardComponent } from '../../shared/components/product-card/produ
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  featuredGames: Game[] = [];
-  newGames: Game[] = [];
-  gamesOnSale: Game[] = [];
+  allGames: Game[] = [];
   loading = true;
   error: string | null = null;
+  
+
+  currentPage = 1;
+  totalPages = 1;
+  totalElements = 0;
+  pageSize = 12;
+
 
   private destroy$ = new Subject<void>();
 
@@ -31,59 +36,34 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
+  } 
 
-  private loadHomeData(): void {
-    this.loading = true;
-    this.error = null;
+private loadHomeData(): void {
+    const params = {
+      page: this.currentPage - 1, 
+      size: this.pageSize,
+    };
 
-    // Load featured games
-    this.gameService.getFeaturedGames()
+    this.gameService.getAllGames(params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (games) => {
-          this.featuredGames = games;
-          this.checkLoadingComplete();
+        next: (response) => {
+          this.allGames = response.content;
+          this.totalPages = response.totalPages;
+          this.totalElements = response.totalElements;
+          this.currentPage = response.number + 1;
+          this.loading = false;
         },
         error: (error) => {
-          console.error('Error loading featured games:', error);
-          this.handleError('Erro ao carregar jogos em destaque');
+          console.error('Error loading games:', error);
+          this.error = 'Erro ao carregar jogos';
+          this.loading = false;
         }
       });
-
-    // Load new games
-    this.gameService.getNewGames()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (games) => {
-          this.newGames = games;
-          this.checkLoadingComplete();
-        },
-        error: (error) => {
-          console.error('Error loading new games:', error);
-          this.handleError('Erro ao carregar novos jogos');
-        }
-      });
-
-    // Load games on sale
-    this.gameService.getGamesOnSale()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (games) => {
-          this.gamesOnSale = games;
-          this.checkLoadingComplete();
-        },
-        error: (error) => {
-          console.error('Error loading games on sale:', error);
-          this.handleError('Erro ao carregar jogos em promoção');
-        }
-      });
-  }
+}
 
   private checkLoadingComplete(): void {
-    if (this.featuredGames.length >= 0 && 
-        this.newGames.length >= 0 && 
-        this.gamesOnSale.length >= 0) {
+    if (this.allGames.length >= 0) {
       this.loading = false;
     }
   }

@@ -36,8 +36,8 @@ export class PaymentService {
           status: Math.random() > 0.1 ? 'SUCCESS' : 'FAILED', // 90% success rate for mock
           paymentMethod: paymentData.paymentMethod,
           transactionId: `txn_${Date.now()}`,
-          message: Math.random() > 0.1 ? 'Payment processed successfully' : 'Payment failed due to insufficient funds',
-          createdAt: new Date()
+          mensagem: Math.random() > 0.1 ? 'Pagamento processado com sucesso' : 'Pagamento falhou por saldo insuficiente',
+          dataCriacao: new Date().toISOString()
         };
         observer.next(mockResponse);
         observer.complete();

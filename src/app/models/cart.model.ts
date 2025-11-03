@@ -4,7 +4,7 @@ export interface CartGame {
   gameId: number;
   game?: Game;
   quantity: number;
-  addedAt: Date;
+  dataAdicao: string;
 }
 
 export interface Cart {
@@ -12,8 +12,8 @@ export interface Cart {
   userId: number;
   user?: User;
   cartGames: CartGame[];
-  createdAt: Date;
-  updatedAt: Date;
+  dataCriacao: string;
+  dataAtualizacao: string;
 }
 
 export interface AddToCartRequest {

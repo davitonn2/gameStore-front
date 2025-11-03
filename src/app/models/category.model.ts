@@ -4,14 +4,14 @@ export interface Category {
 }
 
 export interface CategoryCreateRequest {
-  name: string;
-  description?: string;
-  imageUrl?: string;
+  nome: string;
+  descricao?: string;
+  imagemUrl?: string;
 }
 
 export interface CategoryUpdateRequest {
-  name?: string;
-  description?: string;
-  imageUrl?: string;
+  nome?: string;
+  descricao?: string;
+  imagemUrl?: string;
   isActive?: boolean;
 }

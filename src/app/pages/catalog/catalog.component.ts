@@ -30,14 +30,14 @@ export class CatalogComponent implements OnInit, OnDestroy {
   // Filters
   selectedCategory: number | null = null;
   searchQuery = '';
-  minPrice = 0;
-  maxPrice = 1000;
-  sortBy = 'title';
+  minValor = 0;
+  maxValor = 1000;
+  sortBy = 'nome';
   sortDirection: 'ASC' | 'DESC' = 'ASC';
   
   // UI State
   showFilters = false;
-  priceRange = { min: 0, max: 1000 };
+  valorRange = { min: 0, max: 1000 };
 
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
@@ -103,16 +103,16 @@ export class CatalogComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = null;
 
-    const params = {
-      page: this.currentPage - 1, // API uses 0-based pagination
-      size: this.pageSize,
-      categoryId: this.selectedCategory || undefined,
-      search: this.searchQuery,
-      minPrice: this.minPrice > 0 ? this.minPrice : undefined,
-      maxPrice: this.maxPrice < 1000 ? this.maxPrice : undefined,
-      sortBy: this.sortBy,
-      sortDirection: this.sortDirection
-    };
+  const params = {
+    page: this.currentPage - 1, 
+    size: this.pageSize,
+    categoria: this.selectedCategory || undefined,
+    search: this.searchQuery,  
+    minValor: this.minValor,
+    maxValor: this.maxValor,
+    sortBy: this.sortBy,
+    sortDirection: this.sortDirection
+  };
 
     this.gameService.getAllGames(params)
       .pipe(takeUntil(this.destroy$))
@@ -121,7 +121,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
           this.games = response.content;
           this.totalPages = response.totalPages;
           this.totalElements = response.totalElements;
-          this.currentPage = response.number + 1; // Convert back to 1-based
+          this.currentPage = response.number + 1;
           this.loading = false;
         },
         error: (error) => {
@@ -149,11 +149,11 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   onPriceRangeChange(): void {
-    this.minPrice = this.priceRange.min;
-    this.maxPrice = this.priceRange.max;
-    this.currentPage = 1;
-    this.updateUrl();
-    this.loadGames();
+  this.minValor = this.valorRange.min;
+  this.maxValor = this.valorRange.max;
+  this.currentPage = 1;
+  this.updateUrl();
+  this.loadGames();
   }
 
   onPageChange(page: number): void {
@@ -170,16 +170,16 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   clearFilters(): void {
-    this.selectedCategory = null;
-    this.searchQuery = '';
-    this.minPrice = 0;
-    this.maxPrice = 1000;
-    this.priceRange = { min: 0, max: 1000 };
-    this.sortBy = 'title';
-    this.sortDirection = 'ASC';
-    this.currentPage = 1;
-    this.updateUrl();
-    this.loadGames();
+  this.selectedCategory = null;
+  this.searchQuery = '';
+  this.minValor = 0;
+  this.maxValor = 1000;
+  this.valorRange = { min: 0, max: 1000 };
+  this.sortBy = 'nome';
+  this.sortDirection = 'ASC';
+  this.currentPage = 1;
+  this.updateUrl();
+  this.loadGames();
   }
 
   toggleFilters(): void {
@@ -191,8 +191,9 @@ export class CatalogComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          // Show success message or update UI
           console.log('Added to cart:', game.nome);
+          // Atualiza o carrinho visualmente
+          this.cartService.getCart().subscribe();
         },
         error: (error) => {
           console.error('Error adding to cart:', error);
@@ -210,8 +211,8 @@ export class CatalogComponent implements OnInit, OnDestroy {
     if (this.searchQuery) queryParams.search = this.searchQuery;
     if (this.selectedCategory) queryParams.category = this.selectedCategory;
     if (this.currentPage > 1) queryParams.page = this.currentPage;
-    if (this.minPrice > 0) queryParams.minPrice = this.minPrice;
-    if (this.maxPrice < 1000) queryParams.maxPrice = this.maxPrice;
+  if (this.minValor > 0) queryParams.minValor = this.minValor;
+  if (this.maxValor < 1000) queryParams.maxValor = this.maxValor;
     if (this.sortBy !== 'title') queryParams.sortBy = this.sortBy;
     if (this.sortDirection !== 'ASC') queryParams.sortDirection = this.sortDirection;
 
@@ -224,10 +225,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
   getSortOptions(): { value: string; label: string }[] {
     return [
-      { value: 'title', label: 'Nome' },
-      { value: 'price', label: 'Preço' },
-      { value: 'releaseDate', label: 'Data de Lançamento' },
-      { value: 'createdAt', label: 'Mais Recentes' }
+      { value: 'nome', label: 'Nome' },
+      { value: 'valor', label: 'Preço' },
+      { value: 'dataLancamento', label: 'Data de Lançamento' },
+      { value: 'dataCriacao', label: 'Mais Recentes' }
     ];
   }
 }

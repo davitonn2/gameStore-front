@@ -17,13 +17,13 @@ export interface PaymentResponse {
   status: 'PENDING' | 'SUCCESS' | 'FAILED';
   paymentMethod: string;
   transactionId?: string;
-  message?: string;
-  createdAt: Date;
+  mensagem?: string;
+  dataCriacao: string;
 }
 
 export interface PaymentStatus {
   id: string;
   orderId: number;
   status: 'PENDING' | 'SUCCESS' | 'FAILED';
-  message?: string;
+  mensagem?: string;
 }

@@ -13,27 +13,27 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   getAllCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.API_URL}/categories`);
+  return this.http.get<Category[]>(`${this.API_URL}/categorias`);
   }
 
   getCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.API_URL}/categories/${id}`);
+  return this.http.get<Category>(`${this.API_URL}/categorias/${id}`);
   }
 
   getActiveCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.API_URL}/categories/active`);
+  return this.http.get<Category[]>(`${this.API_URL}/categorias/active`);
   }
 
   // Admin methods
   createCategory(categoryData: CategoryCreateRequest): Observable<Category> {
-    return this.http.post<Category>(`${this.API_URL}/admin/categories`, categoryData);
+  return this.http.post<Category>(`${this.API_URL}/admin/categorias`, categoryData);
   }
 
   updateCategory(id: number, categoryData: CategoryUpdateRequest): Observable<Category> {
-    return this.http.put<Category>(`${this.API_URL}/admin/categories/${id}`, categoryData);
+  return this.http.put<Category>(`${this.API_URL}/admin/categorias/${id}`, categoryData);
   }
 
   deleteCategory(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/admin/categories/${id}`);
+  return this.http.delete<void>(`${this.API_URL}/admin/categorias/${id}`);
   }
 }

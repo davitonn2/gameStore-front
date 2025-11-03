@@ -33,45 +33,45 @@ export class GameService {
     if (params?.sortBy) httpParams = httpParams.set('sortBy', params.sortBy);
     if (params?.sortDirection) httpParams = httpParams.set('sortDirection', params.sortDirection);
 
-    return this.http.get<{ content: Game[]; totalElements: number; totalPages: number; number: number; size: number }>(`${this.API_URL}/games`, { params: httpParams });
+  return this.http.get<{ content: Game[]; totalElements: number; totalPages: number; number: number; size: number }>(`${this.API_URL}/jogos`, { params: httpParams });
   }
 
   getGameById(id: number): Observable<Game> {
-    return this.http.get<Game>(`${this.API_URL}/games/${id}`);
+  return this.http.get<Game>(`${this.API_URL}/jogos/${id}`);
   }
 
   getFeaturedGames(): Observable<Game[]> {
-    return this.http.get<Game[]>(`${this.API_URL}/games/featured`);
+  return this.http.get<Game[]>(`${this.API_URL}/jogos/featured`);
   }
 
   getNewGames(): Observable<Game[]> {
-    return this.http.get<Game[]>(`${this.API_URL}/games/new`);
+  return this.http.get<Game[]>(`${this.API_URL}/jogos/new`);
   }
 
   getGamesOnSale(): Observable<Game[]> {
-    return this.http.get<Game[]>(`${this.API_URL}/games/sale`);
+  return this.http.get<Game[]>(`${this.API_URL}/jogos/sale`);
   }
 
   getRelatedGames(gameId: number): Observable<Game[]> {
-    return this.http.get<Game[]>(`${this.API_URL}/games/${gameId}/related`);
+  return this.http.get<Game[]>(`${this.API_URL}/jogos/${gameId}/related`);
   }
 
   // Admin methods
   createGame(gameData: GameCreateRequest): Observable<Game> {
-    return this.http.post<Game>(`${this.API_URL}/admin/games`, gameData);
+  return this.http.post<Game>(`${this.API_URL}/admin/jogos`, gameData);
   }
 
   updateGame(id: number, gameData: GameUpdateRequest): Observable<Game> {
-    return this.http.put<Game>(`${this.API_URL}/admin/games/${id}`, gameData);
+  return this.http.put<Game>(`${this.API_URL}/admin/jogos/${id}`, gameData);
   }
 
   deleteGame(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/admin/games/${id}`);
+  return this.http.delete<void>(`${this.API_URL}/admin/jogos/${id}`);
   }
 
   uploadGameImage(gameId: number, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post(`${this.API_URL}/admin/games/${gameId}/images`, formData);
+  return this.http.post(`${this.API_URL}/admin/jogos/${gameId}/images`, formData);
   }
 }

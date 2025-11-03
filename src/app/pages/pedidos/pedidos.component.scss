@@ -1,0 +1,16 @@
+.pedidos-container {
+  padding: 2rem 0;
+  .table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    th {
+      background: #f8f9fa;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+    td {
+      color: #444;
+    }
+  }
+}

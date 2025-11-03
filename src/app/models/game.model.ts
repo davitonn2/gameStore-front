@@ -55,27 +55,39 @@ export interface Game {
 }
 
 export interface GameCreateRequest {
-  title: string;
-  description: string;
-  price: number;
-  discountPrice?: number;
-  releaseDate: Date;
-  developer: string;
-  publisher: string;
-  categoryId: number;
-  systemRequirements: Omit<SystemRequirement, 'id' | 'gameId'>[];
-  images: Omit<Image, 'id' | 'gameId'>[];
-  keys: Omit<Key, 'id' | 'gameId'>[];
+  nome: string;
+  descricao: string;
+  valor: number;
+  dataLancamento: string;
+  desenvolvedor: string;
+  distribuidor: string;
+  categoria: string;
+  so: string;
+  armazenamento: string;
+  processador: string;
+  memoria: string;
+  placaDeVideo: string;
+  plataformas?: string[];
+  imagens: Omit<Image, 'id' | 'gameId'>[];
+  chaves: Omit<Key, 'id' | 'gameId'>[];
+  isActive?: boolean;
 }
 
 export interface GameUpdateRequest {
-  title?: string;
-  description?: string;
-  price?: number;
-  discountPrice?: number;
-  releaseDate?: Date;
-  developer?: string;
-  publisher?: string;
-  categoryId?: number;
+  nome?: string;
+  descricao?: string;
+  valor?: number;
+  dataLancamento?: string;
+  desenvolvedor?: string;
+  distribuidor?: string;
+  categoria?: string;
+  so?: string;
+  armazenamento?: string;
+  processador?: string;
+  memoria?: string;
+  placaDeVideo?: string;
+  plataformas?: string[];
+  imagens?: Omit<Image, 'id' | 'gameId'>[];
+  chaves?: Omit<Key, 'id' | 'gameId'>[];
   isActive?: boolean;
 }
