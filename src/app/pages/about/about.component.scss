@@ -3,10 +3,14 @@
   padding: 2rem 0;
 
   .about-hero {
-  padding: 4rem 0 2rem 0;
+  padding: 4rem 1.25rem 2rem 1.25rem;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     margin-bottom: 4rem;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255,255,255,0.08);
 
     .about-title {
       font-size: 3rem;
@@ -33,7 +37,7 @@
       }
 
       .rounded-img {
-        border-radius: 32px;
+        border-radius: 24px;
         padding: 8px;
         background: rgba(255,255,255,0.08);
         margin-bottom: 1.5rem;
@@ -42,8 +46,11 @@
   }
 
   .mission-section {
-    padding: 4rem 0;
+    padding: 4rem 1.25rem;
     background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+    margin-bottom: 2rem;
 
     .section-title {
       font-size: 2.5rem;
@@ -63,10 +70,19 @@
   .values-section {
     padding: 4rem 0;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    margin-top: 2rem;
+
+    .row {
+      --bs-gutter-x: 1.25rem; // horizontal gap between columns
+      --bs-gutter-y: 1.25rem; // vertical gap between rows
+    }
 
     .value-card {
       background: white;
-      border-radius: 15px;
+      border-radius: 18px;
+      overflow: hidden;
       padding: 2rem;
       text-align: center;
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -111,8 +127,16 @@
   }
 
   .team-section {
-    padding: 4rem 0;
+    padding: 4rem 1.25rem;
     background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    margin: 2rem 0;
+
+    .row {
+      --bs-gutter-x: 1.5rem;
+      --bs-gutter-y: 1.5rem;
+    }
 
     .section-title {
       font-size: 2.5rem;
@@ -174,9 +198,12 @@
   }
 
   .cta-section {
-    padding: 4rem 0;
+    padding: 4rem 1.25rem;
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
 
     .cta-title {
       font-size: 2.5rem;
@@ -245,7 +272,7 @@
   .about-container {
     .about-hero {
       text-align: center;
-      padding: 3rem 0;
+      padding: 3rem 1rem;
 
       .about-title {
         font-size: 2.5rem;
@@ -260,7 +287,7 @@
     .values-section,
     .team-section,
     .cta-section {
-      padding: 3rem 0;
+      padding: 3rem 1rem;
     }
   }
 }
@@ -303,6 +330,8 @@
     .mission-section,
     .team-section {
       background: #1a202c;
+      border-radius: 16px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 
       .section-title {
         color: #e2e8f0;
