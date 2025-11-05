@@ -1,0 +1,114 @@
+// Padronização visual igual às outras telas principais
+.thank-you-container {
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.thank-you-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+
+  .thank-you-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+
+    i {
+      font-size: 2rem;
+    }
+  }
+
+  .thank-you-subtitle {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.success-section {
+  background: transparent; /* remove large white block */
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+
+.order-keys {
+  margin: 2rem 0 1rem 0;
+}
+
+.game-key-card {
+  margin-bottom: 1rem;
+}
+.game-key-inner {
+  /* Use a subtle dark card instead of a solid white square to match the page theme */
+  background: rgba(255,255,255,0.03); /* very light overlay on dark background */
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+  padding: 1.25rem;
+  color: #e9eef6; /* light text for contrast */
+}
+
+.game-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #f1f7fb;
+}
+.key-value {
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  font-size: 1.05rem;
+  color: #dbe9ff;
+  background: transparent;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 0.2rem;
+}
+.key-line {
+  display: inline-block;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  font-size: 1.03rem;
+  color: #d7e6f8;
+}
+.key-badge {
+  background: #111;
+  color: #fff;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.copy-btn {
+  border-color: rgba(255,255,255,0.12);
+  color: #e6f0ff;
+  padding: 0.25rem 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .12s ease, background .12s ease;
+}
+.copy-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.03);
+}
+.copied-badge {
+  margin-left: 0.6rem;
+  background: #27ae60;
+  color: white;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(39,174,96,0.18);
+}
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}

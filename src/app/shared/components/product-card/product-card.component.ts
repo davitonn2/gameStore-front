@@ -18,8 +18,7 @@ export class ProductCardComponent {
   @Output() quickView = new EventEmitter<Game>();
 
   onAddToCart(event: Event): void {
-    event.stopPropagation();
-    this.addToCart.emit(this.game);
+  this.addToCart.emit(this.game);
   }
 
   onQuickView(event: Event): void {

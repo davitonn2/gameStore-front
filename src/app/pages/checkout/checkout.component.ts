@@ -125,6 +125,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
               .pipe(takeUntil(this.destroy$))
               .subscribe({
                 next: (intentResponse) => {
+                  console.log('Resposta da criação da intent:', intentResponse);
                   const intentId = intentResponse.intentId || intentResponse.id;
                   if (!intentId) {
                     this.processingPayment = false;
@@ -146,22 +147,47 @@ export class CheckoutComponent implements OnInit, OnDestroy {
                     .pipe(takeUntil(this.destroy$))
                     .subscribe({
                       next: (captureResponse) => {
+                        // Log completo para depuração
+                        console.log('Resposta da captura (raw):', captureResponse);
                         this.processingPayment = false;
-                        if (captureResponse.status === 'SUCCESS' || captureResponse.status === 'APPROVED') {
+
+                        // Tentar extrair status de várias formas
+                        const rawStatus = (
+                          (captureResponse && (captureResponse.status || captureResponse.data?.status || captureResponse.payment?.status)) ||
+                          ''
+                        );
+                        const status = String(rawStatus).toUpperCase();
+
+                        // Fallbacks: quando proxy retorna success:true ou flow=CREDIT_AUTHORIZATION
+                        const successFlag = Boolean(captureResponse && (captureResponse.success === true || captureResponse.data?.success === true));
+                        const flow = (captureResponse && (captureResponse.flow || captureResponse.data?.flow)) || '';
+
+                        const accepted = ['SUCCESS', 'APPROVED', 'AUTHORIZED'].includes(status) || successFlag || String(flow).toUpperCase().includes('AUTHORIZATION');
+
+                        if (accepted) {
                           this.paymentSuccess = true;
                           this.paymentError = null;
                           this.paymentErrorClass = '';
-                          this.cartService.clearCart().subscribe();
+                          // Limpar carrinho e garantir navegação para a página de agradecimento
+                          this.cartService.clearCart().subscribe({ next: () => {
+                            // Navegar explicitamente com replaceUrl para evitar voltar para checkout
+                            this.router.navigate(['/thank-you'], { queryParams: { orderId: order.id }, replaceUrl: true });
+                          }, error: (e) => {
+                            console.warn('Erro ao limpar carrinho, mas continuará com redirecionamento:', e);
+                            this.router.navigate(['/thank-you'], { queryParams: { orderId: order.id }, replaceUrl: true });
+                          }});
                         } else {
                           this.paymentSuccess = false;
-                          this.paymentError = captureResponse.mensagem || 'Pagamento não aprovado.';
+                          this.paymentError = captureResponse.mensagem || captureResponse.message || 'Pagamento não aprovado.';
                           this.paymentErrorClass = 'text-danger';
+                          console.error('Erro na captura do pagamento:', captureResponse);
                         }
                       },
                       error: (err) => {
                         this.processingPayment = false;
                         this.paymentSuccess = false;
-                        const msg = err?.error?.error?.message || err?.error?.message || 'Erro ao capturar pagamento.';
+                        console.error('Erro HTTP ao capturar pagamento:', err);
+                        const msg = err?.error?.error?.message || err?.error?.message || JSON.stringify(err) || 'Erro ao capturar pagamento.';
                         if (msg.includes('Limite insuficiente')) {
                           this.paymentError = 'Pagamento negado! Limite insuficiente.';
                           this.paymentErrorClass = 'text-primary';
@@ -178,7 +204,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
                 error: (err) => {
                   this.processingPayment = false;
                   this.paymentSuccess = false;
-                  const msg = err?.error?.error?.message || err?.error?.message || 'Erro ao criar intent de pagamento.';
+                  console.error('Erro HTTP ao criar intent:', err);
+                  const msg = err?.error?.error?.message || err?.error?.message || JSON.stringify(err) || 'Erro ao criar intent de pagamento.';
                   this.paymentError = msg;
                   this.paymentErrorClass = 'text-danger';
                 }

@@ -3,7 +3,7 @@
     <div class="container">
       <!-- Logo -->
       <a class="navbar-brand" routerLink="/">
-        <img src="assets/icons/logo.svg" alt="GameStore" class="logo" />
+        <img src="assets/icons/controller.png" alt="GameStore" class="logo controller-logo" />
         <span class="brand-text">GameStore</span>
       </a>
 
@@ -70,35 +70,11 @@
           </li>
 
           <!-- User menu -->
-          <li class="nav-item dropdown" *ngIf="currentUser; else loginButton">
-            <a 
-              class="nav-link dropdown-toggle user-menu" 
-              href="#" 
-              role="button" 
-              data-bs-toggle="dropdown" 
-              aria-expanded="false"
-              (click)="irParaPerfil($event)">
+          <li class="nav-item" *ngIf="currentUser; else loginButton">
+            <a class="nav-link user-menu" href="#" (click)="irParaPerfil($event)">
               <i class="fas fa-user-circle"></i>
               {{ currentUser.nome }}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a class="dropdown-item" routerLink="/perfil">
-                  <i class="fas fa-user"></i> Meu Perfil
-                </a>
-              </li>
-              <li *ngIf="currentUser.role === 'ADMIN'">
-                <a class="dropdown-item" routerLink="/admin">
-                  <i class="fas fa-cog"></i> Administração
-                </a>
-              </li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <a class="dropdown-item" (click)="logout()">
-                  <i class="fas fa-sign-out-alt"></i> Sair
-                </a>
-              </li>
-            </ul>
           </li>
 
           <ng-template #loginButton>

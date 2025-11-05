@@ -1,23 +1,6 @@
 <div class="checkout-container">
   <div class="container">
-    <!-- Success Message -->
-    <div *ngIf="paymentSuccess" class="success-section">
-      <div class="text-center py-5">
-        <div class="success-icon">
-          <i class="fas fa-check-circle"></i>
-        </div>
-        <h2 class="success-title">Pagamento Realizado com Sucesso!</h2>
-        <p class="success-description">
-          Seu pedido foi processado e você receberá os jogos em breve.
-        </p>
-        <div class="success-actions">
-          <a routerLink="/catalogo" class="btn btn-primary btn-lg">
-            <i class="fas fa-gamepad me-2"></i>
-            Continuar Comprando
-          </a>
-        </div>
-      </div>
-    </div>
+
 
     <!-- Checkout Form -->
     <div *ngIf="!paymentSuccess" class="checkout-content">

@@ -57,11 +57,11 @@
       </div>
       <div class="card-actions">
         <button 
-          class="btn btn-primary btn-sm add-to-cart-action"
+          class="btn btn-primary add-to-cart-action"
           (click)="onAddToCart($event)"
           *ngIf="showAddToCart">
           <i class="fas fa-cart-plus"></i>
-          <span class="btn-text">Comprar</span>
+          <span>Adicionar ao carrinho</span>
         </button>
         <a 
           [routerLink]="['/jogo', game.id]" 

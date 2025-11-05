@@ -3,7 +3,7 @@
   padding: 2rem 0;
 
   .about-hero {
-    padding: 4rem 0;
+  padding: 4rem 0 2rem 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     margin-bottom: 4rem;
@@ -11,7 +11,7 @@
     .about-title {
       font-size: 3rem;
       font-weight: bold;
-      margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
       line-height: 1.2;
     }
 
@@ -19,7 +19,7 @@
       font-size: 1.2rem;
       opacity: 0.9;
       line-height: 1.6;
-      margin-bottom: 0;
+  margin-bottom: 1.5rem;
     }
 
     .about-image {
@@ -30,6 +30,13 @@
         height: auto;
         filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
         animation: float 3s ease-in-out infinite;
+      }
+
+      .rounded-img {
+        border-radius: 32px;
+        padding: 8px;
+        background: rgba(255,255,255,0.08);
+        margin-bottom: 1.5rem;
       }
     }
   }

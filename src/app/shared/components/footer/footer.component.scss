@@ -14,10 +14,16 @@
       margin-bottom: 1rem;
 
       .footer-logo {
-        height: 32px;
-        width: 32px;
-        margin-right: 0.75rem;
-        filter: brightness(0) invert(1);
+  height: 28px;
+  width: 28px;
+  margin-right: 0.75rem;
+  object-fit: contain;
+  border-radius: 6px;
+  background: transparent;
+  padding: 2px;
+  box-shadow: none;
+  border: none;
+  filter: none;
       }
     }
 

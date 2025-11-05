@@ -79,7 +79,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe(params => {
-        this.searchQuery = params['search'] || '';
+        const search = params['search'] || '';
+        if (search !== this.searchQuery) {
+          this.searchQuery = search;
+        }
         this.selectedCategory = params['category'] ? +params['category'] : null;
         this.currentPage = params['page'] ? +params['page'] : 1;
         this.loadGames();

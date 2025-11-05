@@ -70,23 +70,9 @@
 
           <!-- Price Range -->
           <div class="filter-group">
-            <label class="filter-label">Preço</label>
-            <div class="price-range">
-              <div class="price-inputs">
-                <input 
-                  type="number" 
-                  class="form-control price-input"
-                  [(ngModel)]="valorRange.min"
-                  (change)="onPriceRangeChange()"
-                  placeholder="Min">
-                <span class="price-separator">-</span>
-                <input 
-                  type="number" 
-                  class="form-control price-input"
-                  [(ngModel)]="valorRange.max"
-                  (change)="onPriceRangeChange()"
-                  placeholder="Max">
-              </div>
+            <!-- Filtros de preço aqui, sem else noGames -->
+            <div class="row justify-content-center">
+              <!-- ... campos de preço ... -->
             </div>
           </div>
 
@@ -222,5 +208,3 @@
         </app-pagination>
       </div>
     </div>
-  </div>
-</div>
