@@ -1,60 +1,140 @@
+
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Cart, CartGame, AddToCartRequest, UpdateCartItemRequest } from '../models';
-import { environment } from '../../environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Cart, CartGame, AddToCartRequest, UpdateCartItemRequest, Game } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private readonly API_URL = environment.apiUrl;
-  private cartSubject = new BehaviorSubject<Cart | null>(null);
+
+  private readonly STORAGE_KEY = 'gameStoreCart';
+  private cartSubject = new BehaviorSubject<Cart | null>(this.loadCartFromStorage());
   public cart$ = this.cartSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
+
+
 
   getCart(): Observable<Cart> {
-    return this.http.get<Cart>(`${this.API_URL}/cart`).pipe(
-      tap(cart => this.cartSubject.next(cart))
-    );
+    let cart = this.loadCartFromStorage();
+    if (!cart) {
+      cart = {
+        id: Date.now(),
+        usuarioId: 1,
+        carrinhoJogos: [],
+        status: 'ATIVO'
+      };
+      this.saveCartToStorage(cart);
+    }
+    this.cartSubject.next(cart);
+    return this.cartSubject.asObservable() as Observable<Cart>;
   }
 
-  addToCart(request: AddToCartRequest): Observable<Cart> {
-    return this.http.post<Cart>(`${this.API_URL}/cart/items`, request).pipe(
-      tap(cart => this.cartSubject.next(cart))
-    );
+
+  addToCart(request: AddToCartRequest & { game?: Game }): Observable<Cart> {
+    let cart = this.loadCartFromStorage();
+    if (!cart) {
+      cart = {
+        id: Date.now(),
+        usuarioId: 1,
+        carrinhoJogos: [],
+        status: 'ATIVO'
+      };
+    }
+    const existing = cart.carrinhoJogos.find(item => item.jogoId === request.gameId);
+    if (existing) {
+      existing.quantidade += request.quantity;
+      // Atualiza o objeto jogo se vier no request
+      if (request.game) existing.jogo = request.game;
+    } else {
+      cart.carrinhoJogos.push({
+        carrinhoId: cart.id,
+        jogoId: request.gameId,
+        quantidade: request.quantity,
+        jogo: request.game // Salva o objeto jogo completo
+      });
+    }
+    this.saveCartToStorage(cart);
+    this.cartSubject.next(cart);
+    return this.cartSubject.asObservable() as Observable<Cart>;
   }
 
-  updateCartItem(cartGameId: number, request: UpdateCartItemRequest): Observable<Cart> {
-    return this.http.put<Cart>(`${this.API_URL}/cart/items/${cartGameId}`, request).pipe(
-      tap(cart => this.cartSubject.next(cart))
-    );
+
+  updateCartItem(jogoId: number, request: UpdateCartItemRequest): Observable<Cart> {
+    let cart = this.loadCartFromStorage();
+    if (!cart) {
+      cart = {
+        id: Date.now(),
+        usuarioId: 1,
+        carrinhoJogos: [],
+        status: 'ATIVO'
+      };
+    }
+    const item = cart.carrinhoJogos.find(i => i.jogoId === jogoId);
+    if (item) {
+      item.quantidade = request.quantidade;
+      if (item.quantidade <= 0) {
+        cart.carrinhoJogos = cart.carrinhoJogos.filter(i => i.jogoId !== jogoId);
+      }
+      this.saveCartToStorage(cart);
+      this.cartSubject.next(cart);
+    }
+    return this.cartSubject.asObservable() as Observable<Cart>;
   }
 
-  removeFromCart(cartGameId: number): Observable<Cart> {
-    return this.http.delete<Cart>(`${this.API_URL}/cart/items/${cartGameId}`).pipe(
-      tap(cart => this.cartSubject.next(cart))
-    );
+
+  removeFromCart(jogoId: number): Observable<Cart> {
+    let cart = this.loadCartFromStorage();
+    if (!cart) {
+      cart = {
+        id: Date.now(),
+        usuarioId: 1,
+        carrinhoJogos: [],
+        status: 'ATIVO'
+      };
+    }
+    cart.carrinhoJogos = cart.carrinhoJogos.filter(i => i.jogoId !== jogoId);
+    this.saveCartToStorage(cart);
+    this.cartSubject.next(cart);
+    return this.cartSubject.asObservable() as Observable<Cart>;
   }
+
 
   clearCart(): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/cart`).pipe(
-      tap(() => this.cartSubject.next(null))
-    );
+    localStorage.removeItem(this.STORAGE_KEY);
+    this.cartSubject.next(null);
+    return new Observable<void>(observer => {
+      observer.next();
+      observer.complete();
+    });
   }
+  private loadCartFromStorage(): Cart | null {
+    const data = localStorage.getItem(this.STORAGE_KEY);
+    if (!data) return null;
+    try {
+      return JSON.parse(data);
+    } catch {
+      return null;
+    }
+  }
+
+  private saveCartToStorage(cart: Cart) {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cart));
+  }
+
 
   getCartItemCount(): number {
     const cart = this.cartSubject.value;
-    return cart?.cartGames?.reduce((total, item) => total + item.quantity, 0) || 0;
+    return cart?.carrinhoJogos?.reduce((total, item) => total + item.quantidade, 0) || 0;
   }
 
   getCartTotal(): number {
     const cart = this.cartSubject.value;
-    return cart?.cartGames?.reduce((total, item) => {
-      const game = item.game;
-  const price = game?.valor || 0;
-  return total + (price * item.quantity);
+    return cart?.carrinhoJogos?.reduce((total, item) => {
+      const game = item.jogo;
+      const price = game?.valor || 0;
+      return total + (price * item.quantidade);
     }, 0) || 0;
   }
 

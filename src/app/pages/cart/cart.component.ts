@@ -72,19 +72,20 @@ export class CartComponent implements OnInit, OnDestroy {
     return mainImage?.url || game.imagens[0]?.url || 'assets/images/placeholder-game.jpg';
   }
 
+
   getItemPrice(cartGame: CartGame): number {
-    const game = cartGame.game;
+    const game = cartGame.jogo;
     if (!game) return 0;
-    return  game.valor;
+    return game.valor;
   }
 
   getItemTotal(cartGame: CartGame): number {
-    return this.getItemPrice(cartGame) * cartGame.quantity;
+    return this.getItemPrice(cartGame) * cartGame.quantidade;
   }
 
   getSubtotal(): number {
-    if (!this.cart?.cartGames) return 0;
-    return this.cart.cartGames.reduce((total, item) => total + this.getItemTotal(item), 0);
+    if (!this.cart?.carrinhoJogos) return 0;
+    return this.cart.carrinhoJogos.reduce((total, item) => total + this.getItemTotal(item), 0);
   }
 
   getTotal(): number {
@@ -101,36 +102,35 @@ export class CartComponent implements OnInit, OnDestroy {
 
   // Desconto removido, não existe mais no model Game
 
-  updateQuantity(cartGameId: number, quantity: number): void {
-    if (quantity < 1) return;
 
-    this.updatingItems.add(cartGameId);
-
-    this.cartService.updateCartItem(cartGameId, { quantity })
+  updateQuantity(cartGame: CartGame, quantidade: number): void {
+    if (quantidade < 1) return;
+    this.updatingItems.add(cartGame.jogoId);
+    this.cartService.updateCartItem(cartGame.jogoId, { quantidade })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.updatingItems.delete(cartGameId);
+          this.updatingItems.delete(cartGame.jogoId);
         },
         error: (error) => {
           console.error('Error updating cart item:', error);
-          this.updatingItems.delete(cartGameId);
+          this.updatingItems.delete(cartGame.jogoId);
         }
       });
   }
 
-  removeItem(cartGameId: number): void {
-    this.updatingItems.add(cartGameId);
 
-    this.cartService.removeFromCart(cartGameId)
+  removeItem(cartGame: CartGame): void {
+    this.updatingItems.add(cartGame.jogoId);
+    this.cartService.removeFromCart(cartGame.jogoId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.updatingItems.delete(cartGameId);
+          this.updatingItems.delete(cartGame.jogoId);
         },
         error: (error) => {
           console.error('Error removing cart item:', error);
-          this.updatingItems.delete(cartGameId);
+          this.updatingItems.delete(cartGame.jogoId);
         }
       });
   }
@@ -153,7 +153,8 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   proceedToCheckout(): void {
-    if (!this.cart?.cartGames?.length) {
+
+    if (!this.cart?.carrinhoJogos?.length) {
       return;
     }
 
@@ -164,11 +165,13 @@ export class CartComponent implements OnInit, OnDestroy {
     this.router.navigate(['/catalogo']);
   }
 
+
   isEmpty(): boolean {
-    return !this.cart?.cartGames?.length;
+    return !this.cart?.carrinhoJogos?.length;
   }
 
-  isUpdating(cartGameId: number): boolean {
-    return this.updatingItems.has(cartGameId);
+
+  isUpdating(jogoId: number): boolean {
+    return this.updatingItems.has(jogoId);
   }
 }

@@ -17,9 +17,8 @@ export interface Order {
 }
 
 export interface CreateOrderRequest {
-  cartId: number;
-  paymentMethod: string;
-  shippingAddress?: string;
+  usuarioId: number;
+  itens: { jogoId: number; quantidade: number }[];
 }
 
 export interface OrderStatusUpdateRequest {

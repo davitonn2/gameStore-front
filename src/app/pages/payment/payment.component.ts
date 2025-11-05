@@ -104,10 +104,10 @@ export class PaymentComponent implements OnInit, OnDestroy {
   }
 
   getTotal(): number {
-    if (!this.cart?.cartGames) return 0;
-    return this.cart.cartGames.reduce((total, item) => {
-      const price = item.game?.valor || 0;
-      return total + (price * item.quantity);
+    if (!this.cart?.carrinhoJogos) return 0;
+    return this.cart.carrinhoJogos.reduce((total, item) => {
+      const price = item.jogo?.valor || 0;
+      return total + (price * item.quantidade);
     }, 0);
   }
 

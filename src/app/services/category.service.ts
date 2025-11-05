@@ -26,7 +26,7 @@ export class CategoryService {
 
   // Admin methods
   createCategory(categoryData: CategoryCreateRequest): Observable<Category> {
-  return this.http.post<Category>(`${this.API_URL}/admin/categorias`, categoryData);
+  return this.http.post<Category>(`${this.API_URL}/categorias`, categoryData);
   }
 
   updateCategory(id: number, categoryData: CategoryUpdateRequest): Observable<Category> {

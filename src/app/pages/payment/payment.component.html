@@ -22,7 +22,7 @@
     <!-- Payment Form -->
     <div *ngIf="!paymentSuccess" class="payment-content">
       <!-- Empty Cart Message -->
-      <div *ngIf="!cart?.cartGames?.length" class="empty-cart-message">
+  <div *ngIf="!cart?.carrinhoJogos?.length" class="empty-cart-message">
         <div class="text-center py-5">
           <div class="empty-cart-icon">
             <i class="fas fa-shopping-cart"></i>
@@ -41,7 +41,7 @@
       </div>
 
       <!-- Payment Form -->
-      <div *ngIf="cart?.cartGames?.length">
+  <div *ngIf="cart?.carrinhoJogos?.length">
       <div class="payment-header">
         <button type="button" class="btn btn-link back-btn" (click)="goBack()">
           <i class="fas fa-arrow-left me-2"></i>
@@ -59,14 +59,14 @@
           <div class="order-summary">
             <h4>Resumo do Pedido</h4>
             
-            <div class="order-items" *ngIf="cart?.cartGames">
-              <div class="order-item" *ngFor="let cartGame of cart?.cartGames">
+            <div class="order-items" *ngIf="cart?.carrinhoJogos">
+              <div class="order-item" *ngFor="let cartGame of cart?.carrinhoJogos">
                 <div class="item-info">
-                  <h6>{{ cartGame.game?.nome }}</h6>
-                  <span class="item-quantity">Qtd: {{ cartGame.quantity }}</span>
+                  <h6>{{ cartGame.jogo?.nome }}</h6>
+                  <span class="item-quantity">Qtd: {{ cartGame.quantidade }}</span>
                 </div>
                 <div class="item-price">
-                  {{ formatPrice((cartGame.game?.valor || 0) * cartGame.quantity) }}
+                  {{ formatPrice((cartGame.jogo?.valor || 0) * cartGame.quantidade) }}
                 </div>
               </div>
             </div>

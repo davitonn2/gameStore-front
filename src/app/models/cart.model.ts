@@ -1,19 +1,16 @@
+
 export interface CartGame {
-  id: number;
-  cartId: number;
-  gameId: number;
-  game?: Game;
-  quantity: number;
-  dataAdicao: string;
+  carrinhoId: number;
+  jogoId: number;
+  quantidade: number;
+  jogo?: Game;
 }
 
 export interface Cart {
   id: number;
-  userId: number;
-  user?: User;
-  cartGames: CartGame[];
-  dataCriacao: string;
-  dataAtualizacao: string;
+  usuarioId: number;
+  carrinhoJogos: CartGame[];
+  status?: string;
 }
 
 export interface AddToCartRequest {
@@ -22,7 +19,7 @@ export interface AddToCartRequest {
 }
 
 export interface UpdateCartItemRequest {
-  quantity: number;
+  quantidade: number;
 }
 
 // Import types from other models

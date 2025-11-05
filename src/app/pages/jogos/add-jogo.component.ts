@@ -151,13 +151,21 @@ export class AddJogoComponent {
     this.success = false;
     this.error = '';
     // Monta o objeto para envio
-    this.game.imagens = this.imagens.filter(img => img.url);
+    this.game.imagens = this.imagens
+      .filter(img => img.url)
+      .map((img, idx) => ({
+        url: img.url,
+        nome: `Imagem ${idx + 1}`,
+        isMainImage: idx === 0
+      }));
     this.game.chaves = this.chaves.filter(chave => chave.keyValue).map(chave => ({ keyValue: chave.keyValue, isUsed: false }));
     this.game.plataformas = this.plataformas.filter(p => p);
     // Categoria principal: primeira selecionada ou vazio
     this.game.categoria = this.categoriasSelecionadas.length > 0 ? this.categoriasSelecionadas[0] : '';
-    // Se backend aceitar múltiplas categorias, envie todas em game.categorias
-    (this.game as any).categorias = this.categoriasSelecionadas;
+    // Envia categorias como array de objetos {id: number}
+    (this.game as any).categorias = this.categories
+      .filter(cat => this.categoriasSelecionadas.includes(cat.nome))
+      .map(cat => ({ id: cat.id }));
     this.gameService.createGame(this.game).subscribe({
       next: () => {
         this.success = true;

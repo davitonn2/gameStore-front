@@ -16,7 +16,6 @@ export interface Image {
   id: number;
   gameId: number;
   url: string;
-  altText?: string;
   isMainImage?: boolean;
 }
 

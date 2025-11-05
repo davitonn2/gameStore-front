@@ -52,10 +52,10 @@ export class AdminComponent implements OnInit, OnDestroy {
       this.totalOrders = res.totalElements;
       // Corrige receita total somando os valores dos jogos em cada pedido
       this.totalRevenue = res.content.reduce((sum, order) => {
-        if (order.carrinho && order.carrinho.cartGames) {
-          return sum + order.carrinho.cartGames.reduce((subSum: number, cartGame: CartGame) => {
-            const price = cartGame.game?.valor || 0;
-            return subSum + (price * cartGame.quantity);
+        if (order.carrinho && order.carrinho.carrinhoJogos) {
+          return sum + order.carrinho.carrinhoJogos.reduce((subSum: number, cartGame: CartGame) => {
+            const price = cartGame.jogo?.valor || 0;
+            return subSum + (price * cartGame.quantidade);
           }, 0);
         }
         return sum;

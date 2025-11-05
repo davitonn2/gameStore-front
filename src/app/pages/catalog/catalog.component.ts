@@ -187,7 +187,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   onAddToCart(game: Game): void {
-    this.cartService.addToCart({ gameId: game.id, quantity: 1 })
+    this.cartService.addToCart({ gameId: game.id, quantity: 1, game })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {

@@ -13,11 +13,11 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   createOrder(orderData: CreateOrderRequest): Observable<Order> {
-    return this.http.post<Order>(`${this.API_URL}/orders`, orderData);
+    return this.http.post<Order>(`${this.API_URL}/pedidos`, orderData);
   }
 
   getOrderById(id: number): Observable<Order> {
-    return this.http.get<Order>(`${this.API_URL}/orders/${id}`);
+    return this.http.get<Order>(`${this.API_URL}/pedidos/${id}`);
   }
 
   getUserOrders(params?: {
@@ -35,7 +35,7 @@ export class OrderService {
     if (params?.sortBy) httpParams = httpParams.set('sortBy', params.sortBy);
     if (params?.sortDirection) httpParams = httpParams.set('sortDirection', params.sortDirection);
 
-    return this.http.get<{ content: Order[]; totalElements: number; totalPages: number; number: number; size: number }>(`${this.API_URL}/orders`, { params: httpParams });
+  return this.http.get<{ content: Order[]; totalElements: number; totalPages: number; number: number; size: number }>(`${this.API_URL}/pedidos`, { params: httpParams });
   }
 
   // Admin methods

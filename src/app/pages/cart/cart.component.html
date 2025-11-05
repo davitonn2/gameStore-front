@@ -71,25 +71,25 @@
               </button>
             </div>
 
-            <div class="cart-item" *ngFor="let cartGame of cart?.cartGames">
+            <div class="cart-item" *ngFor="let cartGame of cart?.carrinhoJogos">
               <div class="cart-item-content">
                 <!-- Game Image -->
                 <div class="cart-item-image">
                   <img 
-                    [src]="getMainImage(cartGame.game)" 
-                    [alt]="cartGame.game?.nome"
+                    [src]="getMainImage(cartGame.jogo)" 
+                    [alt]="cartGame.jogo?.nome"
                     class="game-image">
                 </div>
 
                 <!-- Game Info -->
                 <div class="cart-item-info">
                   <h5 class="game-title">
-                    <a [routerLink]="['/jogo', cartGame.game?.id]" class="title-link">
-                      {{ cartGame.game?.nome }}
+                    <a [routerLink]="['/jogo', cartGame.jogo?.id]" class="title-link">
+                      {{ cartGame.jogo?.nome }}
                     </a>
                   </h5>
-                  <p class="game-developer" *ngIf="cartGame.game?.desenvolvedor">
-                    {{ cartGame.game?.desenvolvedor }}
+                  <p class="game-developer" *ngIf="cartGame.jogo?.desenvolvedor">
+                    {{ cartGame.jogo?.desenvolvedor }}
                   </p>
                   <div class="game-price">
                     <span class="current-price">
@@ -104,19 +104,19 @@
                   <div class="quantity-controls">
                     <button 
                       class="btn btn-outline-secondary quantity-btn"
-                      (click)="updateQuantity(cartGame.id, cartGame.quantity - 1)"
-                      [disabled]="cartGame.quantity <= 1 || isUpdating(cartGame.id)">
+                      (click)="updateQuantity(cartGame, cartGame.quantidade - 1)"
+                      [disabled]="cartGame.quantidade <= 1 || isUpdating(cartGame.jogoId)">
                       <i class="fas fa-minus"></i>
                     </button>
-                    <span class="quantity-display">{{ cartGame.quantity }}</span>
+                    <span class="quantity-display">{{ cartGame.quantidade }}</span>
                     <button 
                       class="btn btn-outline-secondary quantity-btn"
-                      (click)="updateQuantity(cartGame.id, cartGame.quantity + 1)"
-                      [disabled]="isUpdating(cartGame.id)">
+                      (click)="updateQuantity(cartGame, cartGame.quantidade + 1)"
+                      [disabled]="isUpdating(cartGame.jogoId)">
                       <i class="fas fa-plus"></i>
                     </button>
                   </div>
-                  <div class="loading-spinner" *ngIf="isUpdating(cartGame.id)">
+                  <div class="loading-spinner" *ngIf="isUpdating(cartGame.jogoId)">
                     <div class="spinner-border spinner-border-sm text-primary" role="status">
                       <span class="visually-hidden">Atualizando...</span>
                     </div>
@@ -134,8 +134,8 @@
                 <div class="cart-item-actions">
                   <button 
                     class="btn btn-outline-danger remove-btn"
-                    (click)="removeItem(cartGame.id)"
-                    [disabled]="isUpdating(cartGame.id)"
+                    (click)="removeItem(cartGame)"
+                    [disabled]="isUpdating(cartGame.jogoId)"
                     title="Remover item">
                     <i class="fas fa-trash"></i>
                   </button>

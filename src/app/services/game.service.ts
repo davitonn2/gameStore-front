@@ -58,20 +58,20 @@ export class GameService {
 
   // Admin methods
   createGame(gameData: GameCreateRequest): Observable<Game> {
-  return this.http.post<Game>(`${this.API_URL}/admin/jogos`, gameData);
+    return this.http.post<Game>(`${this.API_URL}/jogos`, gameData);
   }
 
   updateGame(id: number, gameData: GameUpdateRequest): Observable<Game> {
-  return this.http.put<Game>(`${this.API_URL}/admin/jogos/${id}`, gameData);
+    return this.http.put<Game>(`${this.API_URL}/jogos/${id}`, gameData);
   }
 
   deleteGame(id: number): Observable<void> {
-  return this.http.delete<void>(`${this.API_URL}/admin/jogos/${id}`);
+    return this.http.delete<void>(`${this.API_URL}/jogos/${id}`);
   }
 
   uploadGameImage(gameId: number, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
-  return this.http.post(`${this.API_URL}/admin/jogos/${gameId}/images`, formData);
+    return this.http.post(`${this.API_URL}/jogos/${gameId}/images`, formData);
   }
 }

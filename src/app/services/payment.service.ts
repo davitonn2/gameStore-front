@@ -12,6 +12,16 @@ export class PaymentService {
 
   constructor(private http: HttpClient) { }
 
+  // TrustPay: criar intent de pagamento
+  createPaymentIntent(intentData: any): Observable<any> {
+    return this.http.post<any>(`${this.API_URL}/pagamentos/merchant/v1/payment-intents`, intentData);
+  }
+
+  // TrustPay: capturar pagamento
+  capturePayment(intentId: string, payload: any): Observable<any> {
+    return this.http.post<any>(`${this.API_URL}/pagamentos/merchant/v1/payment-intents/${intentId}/capture`, payload);
+  }
+
   processPayment(paymentData: PaymentRequest): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(`${this.API_URL}/payments`, paymentData);
   }
