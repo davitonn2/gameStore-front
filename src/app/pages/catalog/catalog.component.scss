@@ -138,7 +138,19 @@
 
   .games-section {
     .row {
-      margin: 0 -15px;
+      // Use Bootstrap's gutter variables so spacing changes actually apply
+      --bs-gutter-x: 2.5rem;
+      --bs-gutter-y: 2.5rem;
+      margin-left: calc(-.5 * var(--bs-gutter-x));
+      margin-right: calc(-.5 * var(--bs-gutter-x));
+
+      // Ensure columns honor the gutter spacing
+      > [class^='col-'],
+      > [class*=' col-'] {
+        padding-left: calc(.5 * var(--bs-gutter-x));
+        padding-right: calc(.5 * var(--bs-gutter-x));
+        margin-bottom: var(--bs-gutter-y);
+      }
     }
   }
 

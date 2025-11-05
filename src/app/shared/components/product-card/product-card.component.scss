@@ -8,6 +8,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  min-width: 380px;
 
   &:hover {
     transform: translateY(-8px);
@@ -182,7 +183,8 @@
       }
 
       .card-actions {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 0.5rem;
 
         .btn {
@@ -191,10 +193,9 @@
           font-size: 0.93rem;
           letter-spacing: 0.01em;
           box-shadow: 0 1px 3px rgba(102, 126, 234, 0.08);
-          padding: 0.18rem 0.7rem 0.18rem 0.6rem;
+          padding: 0.45rem 0.8rem;
           min-width: 0;
-          min-height: 0;
-          height: 2.1rem;
+          min-height: 2.6rem;
           background: linear-gradient(90deg, #667eea 60%, #764ba2 100%);
           color: #fff;
           border: none;
@@ -203,7 +204,9 @@
           align-items: center;
           justify-content: center;
           gap: 0.4rem;
-          white-space: nowrap;
+          white-space: normal;
+          width: 100%;
+          text-align: center;
 
           i {
             font-size: 1rem;
@@ -211,10 +214,11 @@
           }
 
           span {
-            display: inline;
+            display: inline-block;
             font-size: 0.93rem;
             font-weight: 600;
-            line-height: 1;
+            line-height: 1.2;
+            white-space: normal;
           }
 
           &:hover, &:focus {
