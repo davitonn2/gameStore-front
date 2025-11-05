@@ -1,0 +1,12 @@
+# Render configuration for the frontend static site (gameStore-front)
+# Place this file in the root of the frontend repository before connecting to Render
+
+static_sites:
+  - type: static_site
+    name: game-store-frontend
+    env: node
+    # path is repo root when this file is in the frontend repo
+    path: .
+    buildCommand: npm ci && npm run build -- --configuration production
+    publishPath: dist/game-store
+    plan: free
