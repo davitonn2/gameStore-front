@@ -145,7 +145,7 @@ npm run start
 
 ### Login
 
-![Login](./docs/screenshots/catalog.png)
+![Login](https://github.com/davitonn2/gameStore-front/blob/main/img/Login.png)
 
 ### Suporte
 
