@@ -1,8 +1,9 @@
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Cart, CartGame, AddToCartRequest, UpdateCartItemRequest, Game } from '../models';
 import { GameService } from './game.service';
+import { AuthService } from './auth.service';
 import { first } from 'rxjs/operators';
 
 @Injectable({
@@ -14,7 +15,7 @@ export class CartService {
   private cartSubject = new BehaviorSubject<Cart | null>(this.loadCartFromStorage());
   public cart$ = this.cartSubject.asObservable();
 
-  constructor(private gameService: GameService) { }
+  constructor(private gameService: GameService, private authService: AuthService) { }
 
 
 
@@ -35,6 +36,10 @@ export class CartService {
 
 
   addToCart(request: AddToCartRequest & { game?: Game }): Observable<Cart> {
+    // Require authentication to add to cart
+    if (!this.authService.isAuthenticated()) {
+      return throwError(() => new Error('NOT_AUTHENTICATED'));
+    }
     return new Observable<Cart>(observer => {
       let cart: Cart = this.loadCartFromStorage() ?? {
         id: Date.now(),

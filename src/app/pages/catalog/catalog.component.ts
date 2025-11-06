@@ -205,6 +205,11 @@ export class CatalogComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error adding to cart:', error);
+          if (error && (error.message === 'NOT_AUTHENTICATED' || error === 'NOT_AUTHENTICATED')) {
+            // Redirect to login
+            this.router.navigate(['/login']);
+            return;
+          }
         }
       });
   }

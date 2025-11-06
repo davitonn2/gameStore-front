@@ -19,6 +19,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   error: string | null = null;
   selectedImageIndex = 0;
   quantity = 1;
+  adding = false;
 
   private destroy$ = new Subject<void>();
 
@@ -131,35 +132,49 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
 
   addToCart(): void {
     if (!this.game) return;
-
+    this.adding = true;
     this.cartService.addToCart({ gameId: this.game.id, quantity: this.quantity })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           // Show success message
           console.log('Added to cart:', this.game!.nome);
+          this.adding = false;
         },
         error: (error) => {
           console.error('Error adding to cart:', error);
+          this.adding = false;
+          // If not authenticated, redirect to login
+          if (error && (error.message === 'NOT_AUTHENTICATED' || error === 'NOT_AUTHENTICATED')) {
+            // Navigate to login so user can authenticate
+            this.router.navigate(['/login']);
+            return;
+          }
         }
       });
   }
 
   buyNow(): void {
     if (!this.game) return;
-
+    this.adding = true;
     // Ensure the game is added (and fetched/populated) before navigating to checkout
     this.cartService.addToCart({ gameId: this.game.id, quantity: this.quantity })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           console.log('Added to cart (buy now):', this.game!.nome);
+          this.adding = false;
           this.router.navigate(['/checkout']);
         },
         error: (error) => {
           console.error('Error adding to cart (buy now):', error);
-          // still navigate to checkout so user can retry
-          this.router.navigate(['/checkout']);
+          this.adding = false;
+          // still navigate to checkout so user can retry or login
+          if (error && (error.message === 'NOT_AUTHENTICATED' || error === 'NOT_AUTHENTICATED')) {
+            this.router.navigate(['/login']);
+          } else {
+            this.router.navigate(['/checkout']);
+          }
         }
       });
   }

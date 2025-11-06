@@ -48,14 +48,14 @@ import { Order } from '../../models/order.model';
                       <th class="align-middle"><i class="fas fa-dollar-sign"></i> Valor</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr *ngFor="let pedido of pedidos">
-                      <td class="align-middle">{{ pedido.id }}</td>
-                      <td class="align-middle">{{ pedido.usuario.nome }}</td>
-                      <td class="align-middle">{{ pedido.status }}</td>
-                      <td class="align-middle">R$ {{ getOrderTotal(pedido) | number:'1.2-2' }}</td>
-                    </tr>
-                  </tbody>
+                                <tbody>
+                                  <tr *ngFor="let pedido of pedidos">
+                                    <td class="align-middle">{{ pedido.id }}</td>
+                                    <td class="align-middle">{{ pedido.usuario.nome || ('Usuário #' + (pedido.usuario.id || 'N/A')) }}</td>
+                                    <td class="align-middle">{{ pedido.status || 'N/A' }}</td>
+                                    <td class="align-middle">R$ {{ getOrderTotal(pedido) | number:'1.2-2' }}</td>
+                                  </tr>
+                                </tbody>
                 </table>
                 <div *ngIf="carregando" class="text-center py-3">
                   <div class="spinner-border text-primary" role="status">
@@ -84,31 +84,117 @@ export class PedidosComponent implements OnInit {
         this.carregarPedidos();
     }
 
-    getOrderTotal(order: Order): number {
-        if (!order.carrinho || !order.carrinho.cartGames) return 0;
-        return order.carrinho.cartGames.reduce((sum: number, cg: any) => sum + (cg.game?.valor || 0) * cg.quantity, 0);
-    }
+    
 
     carregarPedidos() {
         this.carregando = true;
         this.erro = '';
         this.pedidoService.getAllOrders().subscribe({
             next: res => {
-                let pedidos = res.content; // extrai o array
-                if (this.busca && this.busca.trim() !== '') {
-                    const termo = this.busca.trim().toLowerCase();
-                    pedidos = pedidos.filter((ped: any) =>
-                        ped.id.toString().includes(termo) ||
-                        (ped.status && ped.status.toLowerCase().includes(termo))
-                    );
+            const normalize = (arr: any[]): any[] => arr.map((ped: any) => {
+              // Ensure usuario exists to avoid template runtime errors
+              if (!ped.usuario) {
+                const uid = (ped.usuario && ped.usuario.id) || ped.usuarioId || ped.userId || null;
+                ped.usuario = { id: uid, nome: uid ? ('Usuário #' + uid) : 'Usuário' };
+              }
+              return ped;
+            });
+
+            const extract = (resp: any): any[] => {
+              if (!resp) return [];
+              if (Array.isArray(resp)) return normalize(resp);
+              if (resp.content && Array.isArray(resp.content)) return normalize(resp.content);
+              if (resp.content && typeof resp.content === 'object') return normalize([resp.content]);
+              return [];
+            };
+
+            // Debug: log raw response from getAllOrders so we can see the exact shape
+            console.log('DEBUG: getAllOrders response', res);
+
+            let pedidos: any[] = extract(res);
+            const self = this;
+
+            const applyFilterAndAssign = (pedidosArr: any[]) => {
+              if (self.busca && self.busca.trim() !== '') {
+                const termo = self.busca.trim().toLowerCase();
+                pedidosArr = pedidosArr.filter((ped: any) =>
+                  (ped.id != null && ped.id.toString().includes(termo)) ||
+                  (ped.status && ped.status.toLowerCase().includes(termo))
+                );
+              }
+              self.pedidos = pedidosArr;
+              self.carregando = false;
+            };
+
+            // If admin endpoint returned nothing, attempt fallback to non-admin endpoint
+            if ((!pedidos || pedidos.length === 0)) {
+              this.pedidoService.getUserOrders().subscribe({
+                next: (fallbackRes: any) => {
+                  // Debug: log raw response from fallback user orders endpoint
+                  console.log('DEBUG: getUserOrders fallback response', fallbackRes);
+                  pedidos = extract(fallbackRes);
+                  applyFilterAndAssign(pedidos);
+                },
+                error: (e) => {
+                  console.error('Fallback getUserOrders failed', e);
+                  // still assign whatever we had (likely empty)
+                  self.pedidos = pedidos || [];
+                  self.carregando = false;
                 }
+              });
+            } else {
+              applyFilterAndAssign(pedidos);
+            }
+          },
+          error: (err) => {
+            console.error('getAllOrders failed, trying fallback getUserOrders', err);
+            // Try fallback to user orders endpoint
+            this.pedidoService.getUserOrders().subscribe({
+              next: (fallbackRes: any) => {
+                const extract = (resp: any): any[] => {
+                  if (!resp) return [];
+                  if (Array.isArray(resp)) return resp;
+                  if (resp.content && Array.isArray(resp.content)) return resp.content;
+                  if (resp.content && typeof resp.content === 'object') return [resp.content];
+                  return [];
+                };
+                const pedidos = extract(fallbackRes).map((ped: any) => {
+                  if (!ped.usuario) {
+                    const uid = ped.usuarioId || ped.userId || null;
+                    ped.usuario = { id: uid, nome: uid ? ('Usuário #' + uid) : 'Usuário' };
+                  }
+                  return ped;
+                });
                 this.pedidos = pedidos;
                 this.carregando = false;
-            },
-            error: () => {
+              },
+              error: (e) => {
+                console.error('Fallback getUserOrders also failed', e);
                 this.erro = 'Erro ao carregar pedidos';
                 this.carregando = false;
-            }
+              }
+            });
+          }
         });
     }
+
+  getOrderTotal(order: Order): number {
+    // Support several shapes: { carrinho: { carrinhoJogos: [...] } } or { carrinho: { cartGames: [...] } } or { itens: [...] }
+  const items = (order as any)?.carrinho?.carrinhoJogos ?? (order as any)?.carrinho?.cartGames ?? (order as any)?.itens ?? [];
+    if (!Array.isArray(items)) return 0;
+    return items.reduce((sum: number, it: any) => {
+      // Shape 1: { jogo, quantidade }
+      if (it.jogo && (it.quantidade !== undefined)) {
+        return sum + ((it.jogo?.valor || it.jogo?.price || 0) * it.quantidade);
+      }
+      // Shape 2: { game, quantity }
+      if (it.game && (it.quantity !== undefined)) {
+        return sum + ((it.game?.valor || it.game?.price || 0) * it.quantity);
+      }
+      // Shape 3: { valor, quantidade } or { price, quantity }
+      const valor = it.valor ?? it.price ?? 0;
+      const quantidade = it.quantidade ?? it.quantity ?? 0;
+      return sum + (valor * quantidade);
+    }, 0);
+  }
 }

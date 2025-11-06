@@ -75,16 +75,31 @@ export class AdminComponent implements OnInit, OnDestroy {
     // Fetch a larger page (or adjust server-side) to compute revenue client-side.
     // If you have many orders consider providing an aggregation endpoint on the backend.
     this.orderService.getAllOrders({ page: 0, size: 1000 }).subscribe(res => {
-      this.totalOrders = res.totalElements;
-      // Corrige receita total somando os valores dos jogos em cada pedido
-      this.totalRevenue = res.content.reduce((sum, order) => {
-        if (order.carrinho && order.carrinho.carrinhoJogos) {
-          return sum + order.carrinho.carrinhoJogos.reduce((subSum: number, cartGame: CartGame) => {
-            const price = cartGame.jogo?.valor || 0;
-            return subSum + (price * cartGame.quantidade);
-          }, 0);
-        }
-        return sum;
+      // Support paged response or plain array
+      let orders: any[] = [];
+      if (!res) {
+        orders = [];
+      } else if (Array.isArray(res)) {
+        orders = res as any[];
+      } else if (res.content && Array.isArray(res.content)) {
+        orders = res.content;
+      }
+
+      this.totalOrders = (res && (res.totalElements ?? orders.length)) ?? orders.length;
+
+      // Sum revenue defensively using several possible shapes
+      this.totalRevenue = orders.reduce((sum, order) => {
+        const items = (order as any)?.carrinho?.carrinhoJogos ?? (order as any)?.carrinho?.cartGames ?? (order as any)?.itens ?? [];
+        if (!Array.isArray(items)) return sum;
+        const orderTotal = items.reduce((s: number, it: any) => {
+          if (!it) return s;
+          if (it.jogo && (it.quantidade !== undefined)) return s + ((it.jogo?.valor ?? it.jogo?.price ?? 0) * it.quantidade);
+          if (it.game && (it.quantity !== undefined)) return s + ((it.game?.valor ?? it.game?.price ?? 0) * it.quantity);
+          const valor = it.valor ?? it.price ?? 0;
+          const quantidade = it.quantidade ?? it.quantity ?? 0;
+          return s + (valor * quantidade);
+        }, 0);
+        return sum + orderTotal;
       }, 0);
     });
   }

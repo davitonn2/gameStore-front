@@ -133,13 +133,15 @@
               <div class="purchase-buttons">
                 <button 
                   class="btn btn-primary btn-lg add-to-cart-btn"
-                  (click)="addToCart()">
+                  (click)="addToCart()"
+                  [disabled]="adding">
                   <i class="fas fa-cart-plus"></i>
                   Adicionar ao Carrinho
                 </button>
                 <button 
                   class="btn btn-success btn-lg buy-now-btn"
-                  (click)="buyNow()">
+                  (click)="buyNow()"
+                  [disabled]="adding">
                   <i class="fas fa-shopping-bag"></i>
                   Comprar Agora
                 </button>
