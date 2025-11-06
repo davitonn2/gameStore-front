@@ -148,8 +148,20 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   buyNow(): void {
     if (!this.game) return;
 
-    this.addToCart();
-    this.router.navigate(['/checkout']);
+    // Ensure the game is added (and fetched/populated) before navigating to checkout
+    this.cartService.addToCart({ gameId: this.game.id, quantity: this.quantity })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          console.log('Added to cart (buy now):', this.game!.nome);
+          this.router.navigate(['/checkout']);
+        },
+        error: (error) => {
+          console.error('Error adding to cart (buy now):', error);
+          // still navigate to checkout so user can retry
+          this.router.navigate(['/checkout']);
+        }
+      });
   }
 
   onRelatedGameClick(game: Game): void {

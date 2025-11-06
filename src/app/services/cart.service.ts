@@ -35,43 +35,54 @@ export class CartService {
 
 
   addToCart(request: AddToCartRequest & { game?: Game }): Observable<Cart> {
-    let cart: Cart = this.loadCartFromStorage() ?? {
-      id: Date.now(),
-      usuarioId: 1,
-      carrinhoJogos: [],
-      status: 'ATIVO'
-    };
-    const existing = cart.carrinhoJogos.find(item => item.jogoId === request.gameId);
+    return new Observable<Cart>(observer => {
+      let cart: Cart = this.loadCartFromStorage() ?? {
+        id: Date.now(),
+        usuarioId: 1,
+        carrinhoJogos: [],
+        status: 'ATIVO'
+      };
 
-    const finalize = (gameObj?: Game) => {
-      if (existing) {
-        existing.quantidade += request.quantity;
-        if (gameObj) existing.jogo = gameObj;
-      } else {
-        cart.carrinhoJogos.push({
-          carrinhoId: cart.id,
-          jogoId: request.gameId,
-          quantidade: request.quantity,
-          jogo: gameObj // Salva o objeto jogo completo (pode ser undefined if fetch failed)
-        });
+      const existing = cart.carrinhoJogos.find(item => item.jogoId === request.gameId);
+
+      const finalize = (gameObj?: Game) => {
+        if (existing) {
+          existing.quantidade += request.quantity;
+          if (gameObj) existing.jogo = gameObj;
+        } else {
+          cart.carrinhoJogos.push({
+            carrinhoId: cart.id,
+            jogoId: request.gameId,
+            quantidade: request.quantity,
+            jogo: gameObj // may be undefined if fetch failed
+          });
+        }
+        this.saveCartToStorage(cart);
+        this.cartSubject.next(cart);
+        // notify caller that finalize completed
+        try {
+          observer.next(cart);
+          observer.complete();
+        } catch (e) {
+          // ignore
+        }
+      };
+
+      // If caller provided the full game, use it immediately
+      if (request.game) {
+        finalize(request.game);
+        return;
       }
-      this.saveCartToStorage(cart);
-      this.cartSubject.next(cart);
-    };
 
-    // If caller provided the full game, use it immediately
-    if (request.game) {
-      finalize(request.game);
-      return this.cartSubject.asObservable() as Observable<Cart>;
-    }
+      // Otherwise try to fetch the game from API, but fall back to storing without jogo if fetch fails
+      const sub = this.gameService.getGameById(request.gameId).pipe(first()).subscribe({
+        next: (game) => finalize(game),
+        error: () => finalize(undefined)
+      });
 
-    // Otherwise try to fetch the game from API, but fall back to storing without jogo if fetch fails
-    this.gameService.getGameById(request.gameId).pipe(first()).subscribe({
-      next: (game) => finalize(game),
-      error: () => finalize(undefined)
+      // teardown
+      return () => sub.unsubscribe();
     });
-
-    return this.cartSubject.asObservable() as Observable<Cart>;
   }
 
 
