@@ -52,6 +52,10 @@ export class UserService {
   return this.http.get<{ content: User[]; totalElements: number; totalPages: number; number: number; size: number }>(`${this.API_URL}/usuarios`, { params: httpParams });
   }
 
+  getUserCount(): Observable<number> {
+    return this.http.get<number>(`${this.API_URL}/usuarios/count`);
+  }
+
   getUserById(id: number): Observable<User> {
   return this.http.get<User>(`${this.API_URL}/usuarios/${id}`);
   }

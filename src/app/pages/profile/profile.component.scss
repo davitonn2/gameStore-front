@@ -130,12 +130,19 @@
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1.5rem;
 
       .btn {
         padding: 0.75rem 1.5rem;
         border-radius: 25px;
         font-weight: 500;
         transition: all 0.3s ease;
+        min-width: 160px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
         &:hover {
           transform: translateY(-2px);
@@ -146,6 +153,10 @@
           border-color: #dc3545;
           color: white;
         }
+      
+      .action-btn {
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      }
       }
     }
   }

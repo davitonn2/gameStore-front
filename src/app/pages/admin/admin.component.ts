@@ -20,7 +20,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   totalGames: number = 0;
-  totalUsers: number = 0;
+  totalUsers: number = 0; // total registered users
+  activeUsers: number = 0; // users with role USER
   totalOrders: number = 0;
   totalRevenue: number = 0;
 
@@ -45,10 +46,23 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.gameService.getAllGames({ page: 0, size: 1 }).subscribe(res => {
       this.totalGames = res.totalElements;
     });
-    this.userService.getAllUsers({ page: 0, size: 1 }).subscribe(res => {
-      this.totalUsers = res.totalElements;
+    // Total registered users (use dedicated count endpoint)
+    this.userService.getUserCount().subscribe(count => {
+      this.totalUsers = count;
+    }, () => {
+      // fallback: if count endpoint fails, try pageable call
+      this.userService.getAllUsers({ page: 0, size: 1 }).subscribe(res => {
+        this.totalUsers = res.totalElements;
+      });
     });
-    this.orderService.getAllOrders({ page: 0, size: 100 }).subscribe(res => {
+
+    // Active users (only role = 'USER')
+    this.userService.getAllUsers({ page: 0, size: 1, role: 'USER' }).subscribe(res => {
+      this.activeUsers = res.totalElements;
+    });
+    // Fetch a larger page (or adjust server-side) to compute revenue client-side.
+    // If you have many orders consider providing an aggregation endpoint on the backend.
+    this.orderService.getAllOrders({ page: 0, size: 1000 }).subscribe(res => {
       this.totalOrders = res.totalElements;
       // Corrige receita total somando os valores dos jogos em cada pedido
       this.totalRevenue = res.content.reduce((sum, order) => {

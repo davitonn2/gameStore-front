@@ -107,6 +107,11 @@
     }
   }
 
+  /* Overlay container for filters when positioned absolutely */
+  .filters-overlay {
+    display: block;
+  }
+
   .results-info {
     background: white;
     border-radius: 10px;
@@ -137,6 +142,15 @@
   }
 
   .games-section {
+
+    .games-center {
+      width: 100%;
+      margin: 0 auto 2rem auto;
+      padding: 0 1rem;
+      /* Match common container max width for large screens so it visually aligns with the header */
+      max-width: 1140px;
+    }
+
     .row {
       // Use Bootstrap's gutter variables so spacing changes actually apply
       --bs-gutter-x: 2.5rem;
@@ -255,6 +269,62 @@
       .row {
         margin: 0 -10px;
       }
+    }
+  }
+}
+
+/* Desktop: make filters act as an absolute panel so it doesn't reserve grid space */
+@media (min-width: 992px) {
+  .catalog-container {
+    position: relative;
+
+    .filters-overlay {
+      position: absolute;
+      left: 0;
+      top: 160px; /* aligns roughly with header height; adjust if needed */
+      width: 300px;
+      z-index: 1050;
+      display: block;
+
+      .filters-sidebar {
+        position: relative;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+      }
+    }
+
+    /* Ensure games center spans container (not affected by hidden grid column) */
+    .games-center {
+      max-width: 1140px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+}
+
+/* Filters overlay behaviour on mobile: full-screen sliding panel */
+@media (max-width: 991.98px) {
+  .filters-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    z-index: 2000;
+
+    &.show {
+      display: block;
+    }
+
+    .filters-sidebar {
+      background: #fff;
+      width: 80%;
+      height: 100%;
+      padding: 1.5rem;
+      overflow-y: auto;
     }
   }
 }

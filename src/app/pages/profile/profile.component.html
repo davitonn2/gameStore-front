@@ -36,7 +36,7 @@
                 <label>Email:</label>
                 <span>{{ currentUser.email }}</span>
               </div>
-              <div class="info-item">
+              <div class="info-item" *ngIf="currentUser.datacriacao">
                 <label>Membro desde:</label>
                 <span>{{ currentUser.datacriacao | date:'dd/MM/yyyy' }}</span>
               </div>
@@ -45,15 +45,11 @@
 
 
           <div class="profile-actions">
-            <button class="btn btn-outline-primary">
-              <i class="fas fa-edit me-2"></i>
-              Editar Perfil
+            <button *ngIf="currentUser.role === 'ADMIN'" class="btn btn-primary action-btn" (click)="router.navigate(['/admin'])">
+              <i class="fas fa-shield-alt me-2"></i>
+              Administrador
             </button>
-            <button class="btn btn-outline-secondary">
-              <i class="fas fa-key me-2"></i>
-              Alterar Senha
-            </button>
-            <button class="btn btn-outline-danger" (click)="logout()">
+            <button class="btn btn-danger action-btn" (click)="logout()">
               <i class="fas fa-sign-out-alt me-2"></i>
               Sair
             </button>

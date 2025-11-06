@@ -37,6 +37,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   
   // UI State
   showFilters = false;
+  viewMode: 'grid' | 'list' = 'grid';
   valorRange = { min: 0, max: 1000 };
 
   private destroy$ = new Subject<void>();
@@ -187,6 +188,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
+  }
+
+  setViewMode(mode: 'grid' | 'list') {
+    this.viewMode = mode;
   }
 
   onAddToCart(game: Game): void {
