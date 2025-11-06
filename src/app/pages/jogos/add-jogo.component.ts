@@ -35,8 +35,8 @@ import { GameCreateRequest } from '../../models/game.model';
                 </div>
                 <div class="mb-3">
                   <label class="form-label fw-bold"><i class="fas fa-laptop me-2"></i>Plataformas:</label>
-                  <div *ngFor="let plat of plataformas; let p = index" class="input-group mb-2">
-                    <input type="text" class="form-control" [(ngModel)]="plataformas[p]" name="plataforma{{p}}" placeholder="Ex: PC, PS5, Xbox" style="border-radius: 8px;" />
+                  <div *ngFor="let plat of plataformas; let p = index; trackBy: trackByIndex" class="input-group mb-2">
+                    <input type="text" class="form-control" [(ngModel)]="plataformas[p]" [name]="'plataforma' + p" placeholder="Ex: PC, PS5, Xbox" style="border-radius: 8px;" />
                     <button type="button" class="btn btn-danger" (click)="removerPlataforma(p)"><i class="fas fa-trash"></i></button>
                   </div>
                   <button type="button" class="btn btn-secondary" (click)="adicionarPlataforma()"><i class="fas fa-plus"></i> Adicionar Plataforma</button>
@@ -89,14 +89,6 @@ import { GameCreateRequest } from '../../models/game.model';
                   </div>
                   <button type="button" class="btn btn-secondary" (click)="adicionarImagem()"><i class="fas fa-plus"></i> Adicionar Imagem</button>
                 </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold"><i class="fas fa-key me-2"></i>Keys (Chaves):</label>
-                  <div *ngFor="let chave of chaves; let k = index" class="input-group mb-2">
-                    <input type="text" class="form-control" [(ngModel)]="chaves[k].keyValue" name="chave{{k}}" placeholder="Key do jogo" style="border-radius: 8px;" />
-                    <button type="button" class="btn btn-danger" (click)="removerChave(k)"><i class="fas fa-trash"></i></button>
-                  </div>
-                  <button type="button" class="btn btn-secondary" (click)="adicionarChave()"><i class="fas fa-plus"></i> Adicionar Key</button>
-                </div>
                 <div class="d-flex align-items-center">
                   <button class="btn btn-success" type="submit" [disabled]="loading" style="border-radius: 8px; font-weight: 500; min-width: 120px; font-size: 1.1rem;">
                     <i class="fas fa-save me-2"></i>Salvar
@@ -113,9 +105,8 @@ import { GameCreateRequest } from '../../models/game.model';
   `
 })
 export class AddJogoComponent {
-  game: GameCreateRequest = { nome: '', categoria: '', valor: 0, descricao: '', dataLancamento: '', desenvolvedor: '', distribuidor: '', so: '', armazenamento: '', processador: '', memoria: '', placaDeVideo: '', imagens: [], chaves: [], plataformas: [] };
+  game: GameCreateRequest = { nome: '', categoria: '', valor: 0, descricao: '', dataLancamento: '', desenvolvedor: '', distribuidor: '', so: '', armazenamento: '', processador: '', memoria: '', placaDeVideo: '', imagens: [], plataformas: [] };
   imagens: { url: string }[] = [];
-  chaves: { keyValue: string }[] = [];
   plataformas: string[] = [];
   categoriasSelecionadas: string[] = [];
   categories: any[] = [];
@@ -127,17 +118,16 @@ export class AddJogoComponent {
     this.categoryService.getAllCategories().subscribe(cats => this.categories = cats);
   }
 
+  // trackBy to keep inputs stable inside ngFor and avoid re-creation while typing
+  trackByIndex(index: number, item: any) {
+    return index;
+  }
+
   adicionarImagem() {
     this.imagens.push({ url: '' });
   }
   removerImagem(index: number) {
     this.imagens.splice(index, 1);
-  }
-  adicionarChave() {
-    this.chaves.push({ keyValue: '' });
-  }
-  removerChave(index: number) {
-    this.chaves.splice(index, 1);
   }
   adicionarPlataforma() {
     this.plataformas.push('');
@@ -158,7 +148,6 @@ export class AddJogoComponent {
         nome: `Imagem ${idx + 1}`,
         isMainImage: idx === 0
       }));
-    this.game.chaves = this.chaves.filter(chave => chave.keyValue).map(chave => ({ keyValue: chave.keyValue, isUsed: false }));
     this.game.plataformas = this.plataformas.filter(p => p);
     // Categoria principal: primeira selecionada ou vazio
     this.game.categoria = this.categoriasSelecionadas.length > 0 ? this.categoriasSelecionadas[0] : '';
@@ -170,9 +159,8 @@ export class AddJogoComponent {
       next: () => {
         this.success = true;
         this.loading = false;
-        this.game = { nome: '', categoria: '', valor: 0, descricao: '', dataLancamento: '', desenvolvedor: '', distribuidor: '', so: '', armazenamento: '', processador: '', memoria: '', placaDeVideo: '', imagens: [], chaves: [], plataformas: [] };
+  this.game = { nome: '', categoria: '', valor: 0, descricao: '', dataLancamento: '', desenvolvedor: '', distribuidor: '', so: '', armazenamento: '', processador: '', memoria: '', placaDeVideo: '', imagens: [], plataformas: [] };
         this.imagens = [];
-        this.chaves = [];
         this.plataformas = [];
         this.categoriasSelecionadas = [];
       },

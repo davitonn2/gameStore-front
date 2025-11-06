@@ -47,7 +47,6 @@ export interface Game {
   placaDeVideo: string;
   plataformas?: string[]; // ex: ['PC', 'PS5']
   imagens?: Image[];
-  chaves?: Key[];
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -68,7 +67,6 @@ export interface GameCreateRequest {
   placaDeVideo: string;
   plataformas?: string[];
   imagens: Omit<Image, 'id' | 'gameId'>[];
-  chaves: Omit<Key, 'id' | 'gameId'>[];
   isActive?: boolean;
 }
 
@@ -87,6 +85,5 @@ export interface GameUpdateRequest {
   placaDeVideo?: string;
   plataformas?: string[];
   imagens?: Omit<Image, 'id' | 'gameId'>[];
-  chaves?: Omit<Key, 'id' | 'gameId'>[];
   isActive?: boolean;
 }
