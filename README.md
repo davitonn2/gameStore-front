@@ -136,25 +136,28 @@ npm run start
 
 ---
 
-## Screenshots (preencha com prints)
+## Screenshots
 
-Crie uma pasta `docs/screenshots` e adicione as imagens. Em seguida substitua os links abaixo.
-
-### Home
-
-![Home](./docs/screenshots/home.png)
 
 ### Catálogo
 
-![Catálogo](./docs/screenshots/catalog.png)
+![Catálogo](https://github.com/davitonn2/gameStore-front/blob/main/img/Catalogo.png)
 
-### Admin - Painel
+### Login
 
-![Admin](./docs/screenshots/admin.png)
+![Login](./docs/screenshots/catalog.png)
 
-### Thank-you (chaves)
+### Suporte
 
-![Thank You](./docs/screenshots/thank-you.png)
+![Suporte](https://github.com/davitonn2/gameStore-front/blob/main/img/Suporte.png)
+
+### Carrinho
+
+![Carrinho](https://github.com/davitonn2/gameStore-front/blob/main/img/adicionarCarrinho.png)
+
+### Finalizar Compra
+
+![Finalizar Compra](https://github.com/davitonn2/gameStore-front/blob/main/img/finalizarCompra.png)
 
 ---
 
