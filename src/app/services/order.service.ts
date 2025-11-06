@@ -58,7 +58,8 @@ export class OrderService {
     if (params?.sortBy) httpParams = httpParams.set('sortBy', params.sortBy);
     if (params?.sortDirection) httpParams = httpParams.set('sortDirection', params.sortDirection);
 
-    return this.http.get<{ content: Order[]; totalElements: number; totalPages: number; number: number; size: number }>(`${this.API_URL}/admin/orders`, { params: httpParams });
+    // Backend currently exposes pedidos at /api/pedidos (PedidoController). Use that endpoint so admin UI can fetch orders.
+    return this.http.get<{ content: Order[]; totalElements: number; totalPages: number; number: number; size: number }>(`${this.API_URL}/pedidos`, { params: httpParams });
   }
 
   updateOrderStatus(id: number, statusData: OrderStatusUpdateRequest): Observable<Order> {

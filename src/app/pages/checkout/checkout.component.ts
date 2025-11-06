@@ -165,17 +165,32 @@ export class CheckoutComponent implements OnInit, OnDestroy {
                         const accepted = ['SUCCESS', 'APPROVED', 'AUTHORIZED'].includes(status) || successFlag || String(flow).toUpperCase().includes('AUTHORIZATION');
 
                         if (accepted) {
-                          this.paymentSuccess = true;
-                          this.paymentError = null;
-                          this.paymentErrorClass = '';
-                          // Limpar carrinho e garantir navegação para a página de agradecimento
-                          this.cartService.clearCart().subscribe({ next: () => {
-                            // Navegar explicitamente com replaceUrl para evitar voltar para checkout
-                            this.router.navigate(['/thank-you'], { queryParams: { orderId: order.id }, replaceUrl: true });
-                          }, error: (e) => {
-                            console.warn('Erro ao limpar carrinho, mas continuará com redirecionamento:', e);
-                            this.router.navigate(['/thank-you'], { queryParams: { orderId: order.id }, replaceUrl: true });
-                          }});
+                                this.paymentSuccess = true;
+                                this.paymentError = null;
+                                this.paymentErrorClass = '';
+                                // Informar backend para marcar o pedido como aprovado
+                                this.paymentService.finalizeOrder(order.id).pipe(takeUntil(this.destroy$)).subscribe({
+                                  next: () => {
+                                    // Limpar carrinho e garantir navegação para a página de agradecimento
+                                    this.cartService.clearCart().subscribe({ next: () => {
+                                      // Navegar explicitamente com replaceUrl para evitar voltar para checkout
+                                      this.router.navigate(['/thank-you'], { queryParams: { orderId: order.id }, replaceUrl: true });
+                                    }, error: (e) => {
+                                      console.warn('Erro ao limpar carrinho, mas continuará com redirecionamento:', e);
+                                      this.router.navigate(['/thank-you'], { queryParams: { orderId: order.id }, replaceUrl: true });
+                                    }});
+                                  },
+                                  error: (err) => {
+                                    console.error('Erro ao finalizar pedido no backend:', err);
+                                    // Mesmo que finalização falhe, prossiga com limpeza do carrinho e redirecionamento
+                                    this.cartService.clearCart().subscribe({ next: () => {
+                                      this.router.navigate(['/thank-you'], { queryParams: { orderId: order.id }, replaceUrl: true });
+                                    }, error: (e) => {
+                                      console.warn('Erro ao limpar carrinho, mas continuará com redirecionamento:', e);
+                                      this.router.navigate(['/thank-you'], { queryParams: { orderId: order.id }, replaceUrl: true });
+                                    }});
+                                  }
+                                });
                         } else {
                           this.paymentSuccess = false;
                           this.paymentError = captureResponse.mensagem || captureResponse.message || 'Pagamento não aprovado.';

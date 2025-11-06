@@ -85,10 +85,17 @@ export class AdminComponent implements OnInit, OnDestroy {
         orders = res.content;
       }
 
-      this.totalOrders = (res && (res.totalElements ?? orders.length)) ?? orders.length;
+      // Normalize status and filter only approved orders
+      const approvedOrders = orders.filter((order: any) => {
+        const s = (order && (order.status || order.data?.status || order.statuS || order.state)) || '';
+        return String(s).toUpperCase() === 'APROVADO' || String(s).toUpperCase() === 'APPROVED';
+      });
 
-      // Sum revenue defensively using several possible shapes
-      this.totalRevenue = orders.reduce((sum, order) => {
+      // Total orders = only approved ones
+      this.totalOrders = approvedOrders.length;
+
+      // Sum revenue from approved orders only
+      this.totalRevenue = approvedOrders.reduce((sum: number, order: any) => {
         const items = (order as any)?.carrinho?.carrinhoJogos ?? (order as any)?.carrinho?.cartGames ?? (order as any)?.itens ?? [];
         if (!Array.isArray(items)) return sum;
         const orderTotal = items.reduce((s: number, it: any) => {

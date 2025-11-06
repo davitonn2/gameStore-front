@@ -34,6 +34,11 @@ export class PaymentService {
     return this.http.get<PaymentResponse>(`${this.API_URL}/payments/order/${orderId}`);
   }
 
+  // Finaliza pedido no backend marcando como aprovado
+  finalizeOrder(pedidoId: number): Observable<any> {
+    return this.http.post<any>(`${this.API_URL}/pagamentos/finalizar/${pedidoId}`, {});
+  }
+
   // Mock payment processing for development
   processMockPayment(paymentData: PaymentRequest): Observable<PaymentResponse> {
     // Simulate API delay
