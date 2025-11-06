@@ -49,10 +49,22 @@ export class AdminComponent implements OnInit, OnDestroy {
     // Total registered users (use dedicated count endpoint)
     this.userService.getUserCount().subscribe(count => {
       this.totalUsers = count;
-    }, () => {
-      // fallback: if count endpoint fails, try pageable call
-      this.userService.getAllUsers({ page: 0, size: 1 }).subscribe(res => {
-        this.totalUsers = res.totalElements;
+    }, (err) => {
+      console.error('getUserCount failed, falling back to getAllUsers()', err);
+      // fallback: if count endpoint fails, try pageable call or handle array response
+      this.userService.getAllUsers({ page: 0, size: 1 }).subscribe((res: any) => {
+        // res can be either a paged response { totalElements } or a plain array of users
+        if (res && typeof res.totalElements === 'number') {
+          this.totalUsers = res.totalElements;
+        } else if (Array.isArray(res)) {
+          this.totalUsers = res.length;
+        } else {
+          // defensive: try to read totalElements anyway or set 0
+          this.totalUsers = (res && res.totalElements) ? res.totalElements : 0;
+        }
+      }, (err2) => {
+        console.error('Fallback getAllUsers also failed', err2);
+        this.totalUsers = 0;
       });
     });
 
