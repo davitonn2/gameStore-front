@@ -1,0 +1,11 @@
+# Render static site manifest for the Angular frontend
+services:
+  - type: static
+    name: game-store-frontend
+    env: static
+    plan: free
+    buildCommand: npm run build:render
+    publishPath: dist/game-store
+    envVars:
+      - key: BACKEND_API_URL
+        value: "http://localhost:8080"
